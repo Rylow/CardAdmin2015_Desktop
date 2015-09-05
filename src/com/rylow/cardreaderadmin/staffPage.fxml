@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rylow.cardreaderadmin.StaffPageController">
+   <children>
+      <Button fx:id="btnRemSelStaff" layoutX="30.0" layoutY="532.0" mnemonicParsing="false" onAction="#btnRemSelStaffOnAction" prefHeight="25.0" prefWidth="225.0" text="Remove Selected Staff Member" />
+      <Button fx:id="btnAddNewStaff" layoutX="31.0" layoutY="495.0" mnemonicParsing="false" onAction="#btnAddNewStaffOnAction" prefHeight="25.0" prefWidth="224.0" text="Add New Staff Member" />
+      <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="256.0" text="Please select a Staff Member" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ListView fx:id="listStaff" layoutX="31.0" layoutY="48.0" prefHeight="439.0" prefWidth="223.0" />
+      <ImageView fx:id="imgPhoto" fitHeight="200.0" fitWidth="200.0" layoutX="317.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="lblID" layoutX="695.0" layoutY="48.0" text="id" />
+      <TextField fx:id="txtStaffName" layoutX="600.0" layoutY="111.0" prefHeight="25.0" prefWidth="200.0" text="-" />
+      <Label alignment="CENTER" layoutX="587.0" layoutY="83.0" prefHeight="17.0" prefWidth="226.0" text="Full Name" textAlignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnImg1" layoutX="317.0" layoutY="355.0" mnemonicParsing="false" onAction="#btnImgPhotoOnAction" prefHeight="25.0" prefWidth="200.0" text="Change Photo" />
+      <Label alignment="CENTER" layoutX="587.0" layoutY="173.0" prefHeight="17.0" prefWidth="226.0" text="Position" textAlignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtPosition" layoutX="600.0" layoutY="202.0" prefHeight="25.0" prefWidth="200.0" text="-" />
+      <Label alignment="CENTER" layoutX="587.0" layoutY="273.0" prefHeight="17.0" prefWidth="226.0" text="Contact email" textAlignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtEmail" layoutX="600.0" layoutY="303.0" prefHeight="25.0" prefWidth="200.0" text="-" />
+      <CheckBox fx:id="chkExternal" layoutX="595.0" layoutY="470.0" mnemonicParsing="false" text="External" />
+      <CheckBox fx:id="chkActive" layoutX="741.0" layoutY="470.0" mnemonicParsing="false" text="Active" />
+      <Button fx:id="btnRemCardSel" layoutX="905.0" layoutY="355.0" mnemonicParsing="false" onAction="#btnRemCardSelOnAction" prefHeight="25.0" prefWidth="177.0" text="Remove Card (Selected)" />
+      <Button fx:id="btnAddCard" layoutX="905.0" layoutY="323.0" mnemonicParsing="false" onAction="#btnAddCardOnAction" prefHeight="25.0" prefWidth="177.0" text="Add Card" />
+      <Button fx:id="btnSave" layoutX="470.0" layoutY="520.0" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="25.0" prefWidth="161.0" text="Save Changes" />
+      <Button fx:id="btnCancel" layoutX="652.0" layoutY="520.0" mnemonicParsing="false" onAction="#btnCancelOnAction" prefHeight="25.0" prefWidth="161.0" text="Cancel Changes" />
+      <Label alignment="CENTER" layoutX="906.0" layoutY="135.0" prefHeight="20.0" prefWidth="176.0" text="Assigned Cards" textAlignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ListView fx:id="listCards" layoutX="906.0" layoutY="162.0" prefHeight="147.0" prefWidth="175.0" />
+      <Label alignment="CENTER" layoutX="582.0" layoutY="370.0" prefHeight="17.0" prefWidth="226.0" text="Door Security Group" textAlignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cboxSecGroup" layoutX="595.0" layoutY="399.0" prefHeight="25.0" prefWidth="200.0" />
+   </children>
+</AnchorPane>

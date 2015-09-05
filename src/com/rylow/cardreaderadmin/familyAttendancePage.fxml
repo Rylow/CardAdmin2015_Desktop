@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rylow.cardreaderadmin.FamilyAttendanceController">
+	<children>
+		<Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="256.0" text="Please select a Family" textAlignment="CENTER">
+	         <font>
+	            <Font size="18.0" />
+	         </font>
+	      </Label>
+	      <ListView fx:id="listFamily" layoutX="31.0" layoutY="48.0" prefHeight="439.0" prefWidth="223.0" />
+      <TreeView fx:id="treeAttendance" layoutX="337.0" layoutY="47.0" prefHeight="439.0" prefWidth="726.0" />
+	</children>
+</AnchorPane>

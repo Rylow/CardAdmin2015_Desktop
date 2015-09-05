@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rylow.cardreaderadmin.CallendarController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5f5f5" height="450.0" layoutX="84.0" layoutY="106.0" stroke="BLACK" strokeType="INSIDE" width="1050.0" />
+      <Line endY="450.0" layoutX="234.0" layoutY="106.0" />
+      <Line endX="1050.0" layoutX="84.0" layoutY="181.0" />
+      <Label fx:id="lbl11" alignment="CENTER" contentDisplay="CENTER" layoutX="84.0" layoutY="116.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox11" layoutX="89.0" layoutY="149.0" prefHeight="25.0" prefWidth="140.0" />
+      <Line endY="450.0" layoutX="384.0" layoutY="106.0" />
+      <ChoiceBox fx:id="cbox12" layoutX="239.0" layoutY="149.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl12" alignment="CENTER" contentDisplay="CENTER" layoutX="234.0" layoutY="116.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="84.0" layoutY="74.0" prefHeight="15.0" prefWidth="150.0" text="Monday">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="235.0" layoutY="74.0" prefHeight="15.0" prefWidth="150.0" text="Tuesday">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="385.0" layoutY="74.0" prefHeight="15.0" prefWidth="150.0" text="Wednesday">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Line endY="450.0" layoutX="534.0" layoutY="106.0" />
+      <Line endY="450.0" layoutX="684.0" layoutY="106.0" />
+      <Line endY="450.0" layoutX="834.0" layoutY="106.0" />
+      <Line endY="450.0" layoutX="984.0" layoutY="106.0" />
+      <Label alignment="CENTER" layoutX="534.0" layoutY="74.0" prefHeight="15.0" prefWidth="150.0" text="Thursday">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="684.0" layoutY="74.0" prefHeight="15.0" prefWidth="150.0" text="Friday">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="835.0" layoutY="74.0" prefHeight="15.0" prefWidth="150.0" text="Saturday">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="984.0" layoutY="74.0" prefHeight="15.0" prefWidth="150.0" text="Sunday">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Line endX="1050.0" layoutX="84.0" layoutY="256.0" />
+      <Line endX="1050.0" layoutX="84.0" layoutY="331.0" />
+      <Line endX="1050.0" layoutX="84.0" layoutY="406.0" />
+      <Line endX="1050.0" layoutX="84.0" layoutY="481.0" />
+      <Label fx:id="blb13" alignment="CENTER" contentDisplay="CENTER" layoutX="384.0" layoutY="116.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox13" layoutX="389.0" layoutY="149.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl14" alignment="CENTER" contentDisplay="CENTER" layoutX="534.0" layoutY="116.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox14" layoutX="539.0" layoutY="149.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl15" alignment="CENTER" contentDisplay="CENTER" layoutX="684.0" layoutY="116.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox15" layoutX="689.0" layoutY="149.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="blb16" alignment="CENTER" contentDisplay="CENTER" layoutX="834.0" layoutY="116.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox16" layoutX="839.0" layoutY="149.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl17" alignment="CENTER" contentDisplay="CENTER" layoutX="984.0" layoutY="116.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox17" layoutX="989.0" layoutY="149.0" prefHeight="25.0" prefWidth="140.0" />
+      <ChoiceBox fx:id="cbox27" layoutX="989.0" layoutY="224.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl27" alignment="CENTER" contentDisplay="CENTER" layoutX="984.0" layoutY="191.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox26" layoutX="839.0" layoutY="224.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl26" alignment="CENTER" contentDisplay="CENTER" layoutX="834.0" layoutY="191.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox25" layoutX="689.0" layoutY="224.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl25" alignment="CENTER" contentDisplay="CENTER" layoutX="684.0" layoutY="191.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox24" layoutX="539.0" layoutY="224.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl24" alignment="CENTER" contentDisplay="CENTER" layoutX="534.0" layoutY="191.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox23" layoutX="389.0" layoutY="224.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl23" alignment="CENTER" contentDisplay="CENTER" layoutX="384.0" layoutY="191.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl22" alignment="CENTER" contentDisplay="CENTER" layoutX="234.0" layoutY="191.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox22" layoutX="239.0" layoutY="224.0" prefHeight="25.0" prefWidth="140.0" />
+      <ChoiceBox fx:id="cbox21" layoutX="89.0" layoutY="224.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl21" alignment="CENTER" contentDisplay="CENTER" layoutX="84.0" layoutY="191.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox37" layoutX="989.0" layoutY="297.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl37" alignment="CENTER" contentDisplay="CENTER" layoutX="984.0" layoutY="264.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox36" layoutX="839.0" layoutY="297.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl36" alignment="CENTER" contentDisplay="CENTER" layoutX="834.0" layoutY="264.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox35" layoutX="689.0" layoutY="297.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl35" alignment="CENTER" contentDisplay="CENTER" layoutX="684.0" layoutY="264.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox34" layoutX="539.0" layoutY="297.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl34" alignment="CENTER" contentDisplay="CENTER" layoutX="534.0" layoutY="264.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox33" layoutX="389.0" layoutY="297.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl33" alignment="CENTER" contentDisplay="CENTER" layoutX="384.0" layoutY="264.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl32" alignment="CENTER" contentDisplay="CENTER" layoutX="234.0" layoutY="264.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox32" layoutX="239.0" layoutY="297.0" prefHeight="25.0" prefWidth="140.0" />
+      <ChoiceBox fx:id="cbox31" layoutX="89.0" layoutY="297.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl31" alignment="CENTER" contentDisplay="CENTER" layoutX="84.0" layoutY="264.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox47" layoutX="989.0" layoutY="369.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl47" alignment="CENTER" contentDisplay="CENTER" layoutX="984.0" layoutY="336.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox46" layoutX="839.0" layoutY="369.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl46" alignment="CENTER" contentDisplay="CENTER" layoutX="834.0" layoutY="336.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox45" layoutX="689.0" layoutY="369.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl45" alignment="CENTER" contentDisplay="CENTER" layoutX="684.0" layoutY="336.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox44" layoutX="539.0" layoutY="369.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl44" alignment="CENTER" contentDisplay="CENTER" layoutX="534.0" layoutY="336.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox43" layoutX="389.0" layoutY="369.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl43" alignment="CENTER" contentDisplay="CENTER" layoutX="384.0" layoutY="336.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl42" alignment="CENTER" contentDisplay="CENTER" layoutX="234.0" layoutY="336.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox42" layoutX="239.0" layoutY="369.0" prefHeight="25.0" prefWidth="140.0" />
+      <ChoiceBox fx:id="cbox41" layoutX="89.0" layoutY="369.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl41" alignment="CENTER" contentDisplay="CENTER" layoutX="84.0" layoutY="336.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox57" layoutX="989.0" layoutY="448.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl57" alignment="CENTER" contentDisplay="CENTER" layoutX="984.0" layoutY="415.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox56" layoutX="839.0" layoutY="448.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl56" alignment="CENTER" contentDisplay="CENTER" layoutX="834.0" layoutY="415.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox55" layoutX="689.0" layoutY="448.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl55" alignment="CENTER" contentDisplay="CENTER" layoutX="684.0" layoutY="415.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox54" layoutX="539.0" layoutY="448.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl54" alignment="CENTER" contentDisplay="CENTER" layoutX="534.0" layoutY="415.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox53" layoutX="389.0" layoutY="448.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl53" alignment="CENTER" contentDisplay="CENTER" layoutX="384.0" layoutY="415.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl52" alignment="CENTER" contentDisplay="CENTER" layoutX="234.0" layoutY="415.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox52" layoutX="239.0" layoutY="448.0" prefHeight="25.0" prefWidth="140.0" />
+      <ChoiceBox fx:id="cbox51" layoutX="89.0" layoutY="448.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl51" alignment="CENTER" contentDisplay="CENTER" layoutX="84.0" layoutY="415.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox67" layoutX="989.0" layoutY="523.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl67" alignment="CENTER" contentDisplay="CENTER" layoutX="984.0" layoutY="490.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox66" layoutX="839.0" layoutY="523.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl66" alignment="CENTER" contentDisplay="CENTER" layoutX="834.0" layoutY="490.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox65" layoutX="689.0" layoutY="523.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl65" alignment="CENTER" contentDisplay="CENTER" layoutX="684.0" layoutY="490.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox64" layoutX="539.0" layoutY="523.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl64" alignment="CENTER" contentDisplay="CENTER" layoutX="534.0" layoutY="490.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox63" layoutX="389.0" layoutY="523.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl63" alignment="CENTER" contentDisplay="CENTER" layoutX="384.0" layoutY="490.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl62" alignment="CENTER" contentDisplay="CENTER" layoutX="234.0" layoutY="490.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbox62" layoutX="239.0" layoutY="523.0" prefHeight="25.0" prefWidth="140.0" />
+      <ChoiceBox fx:id="cbox61" layoutX="89.0" layoutY="523.0" prefHeight="25.0" prefWidth="140.0" />
+      <Label fx:id="lbl61" alignment="CENTER" contentDisplay="CENTER" layoutX="84.0" layoutY="490.0" prefHeight="17.0" prefWidth="151.0" text="-">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnSave" layoutX="464.0" layoutY="567.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0" text="Save Changes" />
+      <Button fx:id="btnCancel" layoutX="614.0" layoutY="567.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0" text="Cancel Changes" />
+      <ChoiceBox fx:id="cboxMonth" layoutX="614.0" layoutY="28.0" prefHeight="25.0" prefWidth="151.0" />
+      <Label layoutX="298.0" layoutY="30.0" text="Please Select Desired Month and Year">
+         <font>
+            <Font name="Arial" size="18.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cboxYear" layoutX="790.0" layoutY="28.0" prefHeight="25.0" prefWidth="78.0" />
+   </children>
+</AnchorPane>

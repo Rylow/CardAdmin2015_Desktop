@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rylow.cardreaderadmin.MainController">
+   <children>
+      <TabPane layoutY="150.0" prefHeight="600.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Currently in School">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tblFamily" layoutX="434.0" layoutY="58.0" prefHeight="444.0" prefWidth="333.0">
+                          <columns>
+                            <TableColumn fx:id="clmFamilyName" prefWidth="224.0" text="Family" />
+                            <TableColumn fx:id="clmFamilySince" minWidth="0.0" prefWidth="108.0" text="Since" />
+                          </columns>
+                        </TableView>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="434.0" layoutY="20.0" prefHeight="17.0" prefWidth="333.0" text="Family" textAlignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="831.0" layoutY="20.0" prefHeight="17.0" prefWidth="333.0" text="Guests" textAlignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="tblGuests" layoutX="831.0" layoutY="58.0" prefHeight="125.0" prefWidth="333.0">
+                           <columns>
+                              <TableColumn fx:id="clmGuestName" prefWidth="224.0" text="Name" />
+                              <TableColumn fx:id="clmGuestSince" minWidth="0.0" prefWidth="108.0" text="Since" />
+                           </columns>
+                        </TableView>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="27.0" layoutY="20.0" prefHeight="17.0" prefWidth="333.0" text="Staff" textAlignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="tblStaff" layoutX="27.0" layoutY="58.0" prefHeight="444.0" prefWidth="333.0">
+                           <columns>
+                              <TableColumn fx:id="clmStaffName" prefWidth="224.0" text="Name" />
+                              <TableColumn fx:id="clmStaffSince" minWidth="0.0" prefWidth="108.0" text="Since" />
+                           </columns>
+                        </TableView>
+                        <Button fx:id="btnGenerateReport" layoutX="554.0" layoutY="517.0" mnemonicParsing="false" onAction="#btnGenerateReportOnAction" text="Refresh Tables" />
+                        <Button fx:id="btnFireDrill" layoutX="27.0" layoutY="517.0" mnemonicParsing="false" onAction="#btnFireDrillOnAction" text="Export Fire Drill" />
+                        <TableView fx:id="tblStudents" layoutX="831.0" layoutY="229.0" prefHeight="273.0" prefWidth="333.0">
+                           <columns>
+                              <TableColumn fx:id="clmStudentName" prefWidth="224.0" text="Name" />
+                              <TableColumn fx:id="clmStudentSince" minWidth="0.0" prefWidth="108.0" text="Since" />
+                           </columns>
+                        </TableView>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="831.0" layoutY="197.0" prefHeight="17.0" prefWidth="333.0" text="Students" textAlignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Staff Attendance">
+				<content>
+                	<fx:include fx:id="attendansPage" source="staffAttendancePage.fxml" />
+            	</content>
+          </Tab>
+          <Tab text="Family Visits">
+				<content>
+                	<fx:include fx:id="visitsPage" source="familyAttendancePage.fxml" />
+            	</content>
+          </Tab>
+          <Tab text="Students Attendance">
+				<content>
+                	<fx:include fx:id="attendansPage" source="studentsAttendancePage.fxml" />
+            	</content>
+          </Tab>
+            <Tab text="Families">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="listFamilies" layoutX="31.0" layoutY="48.0" prefHeight="439.0" prefWidth="223.0" />
+                        <Label alignment="CENTER" layoutX="30.0" layoutY="14.0" prefHeight="17.0" prefWidth="226.0" text="Please select a Family" textAlignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="512.0" layoutY="31.0" prefHeight="17.0" prefWidth="226.0" text="Family Name" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtFamilyName" layoutX="551.0" layoutY="51.0" text="-" />
+                        <ImageView fx:id="imgHolder1" fitHeight="160.0" fitWidth="160.0" layoutX="290.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label alignment="CENTER" layoutX="290.0" layoutY="95.0" prefHeight="20.0" prefWidth="161.0" text="Card Holder #1" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="btnImg1" layoutX="290.0" layoutY="296.0" mnemonicParsing="false" onAction="#btnImg1OnAction" prefHeight="25.0" prefWidth="161.0" text="Change Photo" />
+                        <Label alignment="CENTER" layoutX="290.0" layoutY="341.0" prefHeight="20.0" prefWidth="161.0" text="Name" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtNameHolder1" layoutX="290.0" layoutY="369.0" prefHeight="25.0" prefWidth="161.0" text="-" />
+                        <TextField fx:id="txtDescrHolder1" layoutX="290.0" layoutY="463.0" prefHeight="25.0" prefWidth="161.0" text="-" />
+                        <Label alignment="CENTER" layoutX="290.0" layoutY="435.0" prefHeight="20.0" prefWidth="161.0" text="Description" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="470.0" layoutY="434.0" prefHeight="20.0" prefWidth="161.0" text="Description" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtDescrHolder2" layoutX="470.0" layoutY="462.0" prefHeight="25.0" prefWidth="161.0" text="-" />
+                        <TextField fx:id="txtNameHolder2" layoutX="470.0" layoutY="368.0" prefHeight="25.0" prefWidth="161.0" text="-" />
+                        <Label alignment="CENTER" layoutX="470.0" layoutY="340.0" prefHeight="20.0" prefWidth="161.0" text="Name" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="btnImg2" layoutX="471.0" layoutY="295.0" mnemonicParsing="false" onAction="#btnImg2OnAction" prefHeight="25.0" prefWidth="161.0" text="Change Photo" />
+                        <Label alignment="CENTER" layoutX="470.0" layoutY="94.0" prefHeight="20.0" prefWidth="161.0" text="Card Holder #2" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="imgHolder2" fitHeight="160.0" fitWidth="160.0" layoutX="471.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="imgHolder3" fitHeight="160.0" fitWidth="160.0" layoutX="652.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label alignment="CENTER" layoutX="651.0" layoutY="95.0" prefHeight="20.0" prefWidth="161.0" text="Card Holder #3" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="btnImg3" layoutX="652.0" layoutY="296.0" mnemonicParsing="false" onAction="#btnImg3OnAction" prefHeight="25.0" prefWidth="161.0" text="Change Photo" />
+                        <Label alignment="CENTER" layoutX="651.0" layoutY="341.0" prefHeight="20.0" prefWidth="161.0" text="Name" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtNameHolder3" layoutX="651.0" layoutY="369.0" prefHeight="25.0" prefWidth="161.0" text="-" />
+                        <TextField fx:id="txtDescrHolder3" layoutX="651.0" layoutY="463.0" prefHeight="25.0" prefWidth="161.0" text="-" />
+                        <Label alignment="CENTER" layoutX="651.0" layoutY="435.0" prefHeight="20.0" prefWidth="161.0" text="Description" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="imgHolder4" fitHeight="160.0" fitWidth="160.0" layoutX="842.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label alignment="CENTER" layoutX="841.0" layoutY="95.0" prefHeight="20.0" prefWidth="161.0" text="Card Holder #4" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="btnImg4" layoutX="842.0" layoutY="296.0" mnemonicParsing="false" onAction="#btnImg4OnAction" prefHeight="25.0" prefWidth="161.0" text="Change Photo" />
+                        <Label alignment="CENTER" layoutX="841.0" layoutY="341.0" prefHeight="20.0" prefWidth="161.0" text="Name" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtNameHolder4" layoutX="841.0" layoutY="369.0" prefHeight="25.0" prefWidth="161.0" text="-" />
+                        <TextField fx:id="txtDescrHolder4" layoutX="841.0" layoutY="462.0" prefHeight="25.0" prefWidth="161.0" text="-" />
+                        <Label alignment="CENTER" layoutX="841.0" layoutY="435.0" prefHeight="20.0" prefWidth="161.0" text="Description" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ListView fx:id="listCards" layoutX="1018.0" layoutY="128.0" prefHeight="147.0" prefWidth="175.0" />
+                        <Label alignment="CENTER" layoutX="1017.0" layoutY="94.0" prefHeight="20.0" prefWidth="176.0" text="Assigned Cards" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="btnAddCard" layoutX="1017.0" layoutY="296.0" mnemonicParsing="false" onAction="#btnAddCardOnAction" prefHeight="25.0" prefWidth="177.0" text="Add Card" />
+                        <Button fx:id="btnRemCardSel" layoutX="1017.0" layoutY="329.0" mnemonicParsing="false" onAction="#btnRemCardSelOnAction" prefHeight="25.0" prefWidth="177.0" text="Remove Card (Selected)" />
+                        <Button fx:id="btnRemCardScan" layoutX="1017.0" layoutY="368.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="177.0" text="Remove Card (Scan)" />
+                        <Label fx:id="lblID" layoutX="718.0" layoutY="55.0" text="id" />
+                        <Button fx:id="btnAddNewFamily" layoutX="31.0" layoutY="495.0" mnemonicParsing="false" onAction="#btnAddNewFamilyOnAction" prefHeight="25.0" prefWidth="224.0" text="Add New Family" />
+                        <Button fx:id="btnRemSelFam" layoutX="30.0" layoutY="532.0" mnemonicParsing="false" onAction="#btnRemSelFamOnAction" prefHeight="25.0" prefWidth="225.0" text="Remove Selected Family" />
+                        <Button fx:id="btnSave" layoutX="470.0" layoutY="520.0" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="25.0" prefWidth="161.0" text="Save Changes" />
+                        <Button fx:id="btnCancel" layoutX="652.0" layoutY="520.0" mnemonicParsing="false" onAction="#btnCancelOnAction" prefHeight="25.0" prefWidth="161.0" text="Cancel Changes" />
+                        <ChoiceBox fx:id="cboxSecGroup" layoutX="1021.0" layoutY="463.0" prefHeight="25.0" prefWidth="168.0" />
+                        <Label alignment="CENTER" layoutX="1035.0" layoutY="435.0" prefHeight="20.0" prefWidth="142.0" text="Door Security Group" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <CheckBox fx:id="chkActive" layoutX="896.0" layoutY="55.0" mnemonicParsing="false" text="Active" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Staff">
+				<content>
+                	<fx:include fx:id="staffPage" source="staffPage.fxml" />
+            	</content>
+            </Tab>
+            <Tab text="Guests">
+				<content>
+                	<fx:include fx:id="guestPage" source="guestPage.fxml" />
+            	</content>
+            </Tab>
+            <Tab text="Doors">
+				<content>
+                	<fx:include fx:id="doorPage" source="doorPage.fxml" />
+            	</content>
+            </Tab>
+            <Tab disable="true" text="Cards">
+				<content>
+                	<fx:include fx:id="cardPage" source="cardPage.fxml" />
+            	</content>
+            </Tab>
+            <Tab disable="true" text="Temporary Cards">
+				<content>
+                	<fx:include fx:id="tempCardPage" source="tempCardPage.fxml" />
+            	</content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <ImageView fx:id="imglogo" fitHeight="150.0" fitWidth="1200.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rylow.cardreaderadmin.DoorPageController">
+	<children>
+		<Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="256.0" text="Please select a Door" textAlignment="CENTER">
+	         <font>
+	            <Font size="18.0" />
+	         </font>
+	      </Label>
+	      <ListView fx:id="listDoor" layoutX="31.0" layoutY="48.0" prefHeight="439.0" prefWidth="223.0" />
+      <Button fx:id="btnAddDoor" layoutX="31.0" layoutY="509.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="223.0" text="Add Door" />
+      <Button fx:id="btnRemoveDoor" layoutX="31.0" layoutY="544.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="223.0" text="Remove Door" />
+      <Label fx:id="lblDoorName" alignment="CENTER" layoutX="411.0" layoutY="35.0" prefHeight="35.0" prefWidth="465.0" text="IT Office">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblID" layoutX="1141.0" layoutY="44.0" text="id: 4" />
+      <TabPane layoutX="304.0" layoutY="74.0" prefHeight="510.0" prefWidth="844.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab closable="false" text="Security Groups">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tblSecGroup" layoutX="37.0" layoutY="86.0" prefHeight="345.0" prefWidth="628.0">
+                          <columns>
+                            <TableColumn fx:id="tColSG" prefWidth="250.0" text="Security Group" />
+                            <TableColumn fx:id="tColSGFrom" prefWidth="90.0" text="From" />
+                              <TableColumn fx:id="tColSGTo" prefWidth="90.0" text="To" />
+                              <TableColumn fx:id="tColSGOn" prefWidth="200.0" text="On" />
+                          </columns>
+                        </TableView>
+                        <Label alignment="CENTER" layoutX="119.0" layoutY="46.0" prefHeight="17.0" prefWidth="465.0" text="Security Groups Access Rights">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="btnSGAdd" layoutX="679.0" layoutY="216.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Add New Rule" />
+                        <Button fx:id="btnSGEdit" disable="true" layoutX="679.0" layoutY="259.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Edit Selected Rule" />
+                        <Button fx:id="btnSGRemove" layoutX="679.0" layoutY="304.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Remove Selected Rule" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+          <Tab text="Individual Permanent Access">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="btnSAAdd" layoutX="679.0" layoutY="216.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Add New Rule" />
+                        <Label alignment="CENTER" layoutX="119.0" layoutY="46.0" prefHeight="17.0" prefWidth="465.0" text="Special Individual Access Rights">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="tblSpecialAccess" layoutX="37.0" layoutY="86.0" prefHeight="345.0" prefWidth="628.0">
+                           <columns>
+                              <TableColumn fx:id="tColSAName" prefWidth="250.0" text="Name" />
+                              <TableColumn fx:id="tColSAFrom" prefWidth="90.0" text="From" />
+                              <TableColumn fx:id="tColSATo" prefWidth="90.0" text="To" />
+                              <TableColumn fx:id="tColSAOn" prefWidth="200.0" text="On" />
+                           </columns>
+                        </TableView>
+                        <Button fx:id="btnSARemove" layoutX="679.0" layoutY="304.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Remove Selected Rule" />
+                        <Button fx:id="btnSAEdit" disable="true" layoutX="679.0" layoutY="259.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Edit Selected Rule" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Individual Temporary Access">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="464.0" prefWidth="664.0">
+                     <children>
+                        <Label alignment="CENTER" layoutX="119.0" layoutY="46.0" prefHeight="17.0" prefWidth="465.0" text="Temporary Individual Access Rights">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="tblTempAccess" layoutX="37.0" layoutY="86.0" prefHeight="345.0" prefWidth="628.0">
+                           <columns>
+                              <TableColumn fx:id="tColTempOn" minWidth="5.0" prefWidth="90.0" text="Type" />
+                              <TableColumn fx:id="tColTempName" prefWidth="150.0" text="Name" />
+                              <TableColumn fx:id="tColTempFrom" prefWidth="198.0" text="From" />
+                              <TableColumn fx:id="tColTempTo" prefWidth="192.0" text="To" />
+                           </columns>
+                        </TableView>
+                        <Button fx:id="btnTempAdd" layoutX="679.0" layoutY="216.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Add New Rule" />
+                        <Button fx:id="btnSAEdit1" disable="true" layoutX="679.0" layoutY="259.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Edit Selected Rule" />
+                        <Button fx:id="btnTempRemove" layoutX="679.0" layoutY="304.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Remove Selected Rule" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+	</children>
+</AnchorPane>

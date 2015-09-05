@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rylow.cardreaderadmin.GuestPageController">
+   <children>
+      <Label layoutX="348.0" layoutY="42.0" text="Issue a Guest Card">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="792.0" layoutY="55.0" prefHeight="17.0" prefWidth="333.0" text="Temporary Cards" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cboxCard" layoutX="461.0" layoutY="284.0" prefWidth="150.0" />
+      <TextField fx:id="txtName" layoutX="191.0" layoutY="206.0" prefHeight="25.0" prefWidth="224.0" />
+      <Button fx:id="btnAssign" layoutX="645.0" layoutY="259.0" mnemonicParsing="false" onAction="#btnAssignOnAction" text="Assign Card" />
+      <Button fx:id="btnRelease" layoutX="642.0" layoutY="313.0" mnemonicParsing="false" onAction="#btnReleaseOnAction" text="Release Card" />
+      <Label layoutX="493.0" layoutY="251.0" text="2) Pick a card">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="73.0" layoutY="157.0" prefHeight="16.0" prefWidth="341.0" text="1) Select Visitor's type">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="611.0" layoutY="229.0" text="3) Select desired action">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnRefresh" layoutX="915.0" layoutY="544.0" mnemonicParsing="false" onAction="#btnRefreshOnAction" text="Refresh Table" />
+      <RadioButton fx:id="rbGuest" layoutX="73.0" layoutY="210.0" mnemonicParsing="false" onAction="#rbGuestOnAction" text="Guest/Contractor" />
+      <RadioButton fx:id="rbFam" layoutX="73.0" layoutY="288.0" mnemonicParsing="false" onAction="#rbFamOnAction" text="Family" />
+      <RadioButton fx:id="rbStaff" layoutX="73.0" layoutY="366.0" mnemonicParsing="false" onAction="#rbStaffOnAction" text="Staff" />
+      <ChoiceBox fx:id="cboxFamily" layoutX="186.0" layoutY="284.0" prefHeight="25.0" prefWidth="224.0" />
+      <ComboBox fx:id="cboxStaff" layoutX="186.0" layoutY="362.0" prefHeight="25.0" prefWidth="224.0" />
+      <ListView fx:id="listTempCards" layoutX="782.0" layoutY="96.0" prefHeight="434.0" prefWidth="353.0" />
+   </children>
+</AnchorPane>
