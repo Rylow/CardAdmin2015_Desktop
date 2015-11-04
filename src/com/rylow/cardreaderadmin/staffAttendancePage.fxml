@@ -15,5 +15,6 @@
 	      </Label>
 	      <ListView fx:id="listStaff" layoutX="31.0" layoutY="48.0" prefHeight="439.0" prefWidth="223.0" />
       <TreeView fx:id="treeAttendance" layoutX="337.0" layoutY="47.0" prefHeight="439.0" prefWidth="726.0" />
+      <TextField fx:id="nameFilter" layoutX="31.0" layoutY="503.0" onKeyReleased="#nameFilter" prefHeight="25.0" prefWidth="223.0" />
 	</children>
 </AnchorPane>

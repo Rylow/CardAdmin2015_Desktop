@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 
@@ -21,23 +22,38 @@ public class StaffAttendanceController implements Initializable {
 	@FXML
 	TreeView<String> treeAttendance;
 	
+	@FXML
+	TextField nameFilter;
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		listStaff.setItems(SQLConnector.fillStaffList());
+		listStaff.setItems(SQLConnector.fillStaffList(true));
 		listStaff.getSelectionModel().selectedItemProperty().addListener(
 	            new ChangeListener<String>() {
 	                public void changed(ObservableValue<? extends String> ov, 
 	                    String old_val, String new_val) {
-
-	                		showAttendance(new_val);
+	                	
+	                		if (new_val != null)
+	                			showAttendance(new_val);
 	            }
 	        });
 		
 	}
 	
+	@FXML
+	public void nameFilter() {
+		
+		listStaff.getSelectionModel().clearSelection();
+		listStaff.setItems(SQLConnector.fillStaffListFilter(true, nameFilter.getText()));
+		
+		
+	}
+	
 	private void showAttendance (String staffName){
 
+		listStaff.setItems(SQLConnector.fillStaffListFilter(true, nameFilter.getText()));
+		
 		ObservableList<StaffAttendanceRecord> items =SQLConnector.getStaffAttendanceReport(staffName);
 		Boolean foundYear = false;
 		Boolean foundMonth = false;

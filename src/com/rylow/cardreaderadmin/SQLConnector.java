@@ -14,7 +14,9 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import com.rylow.Family.Family;
+import com.rylow.SpecialCard.SpecialCard;
 import com.rylow.Staff.Staff;
+import com.rylow.Student.Student;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -702,7 +704,7 @@ public class SQLConnector {
 	
 	///////////// STAFF //////////////////////////////
 	
-	protected static ObservableList<String> fillStaffList(){
+	protected static ObservableList<String> fillStaffList(Boolean attendanceReport){
 		
 		Connection conn = null;
 		PreparedStatement psStaff;
@@ -713,7 +715,10 @@ public class SQLConnector {
 			
 			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
 			
-			psStaff = conn.prepareStatement("SELECT * FROM Staff");
+			if (attendanceReport)
+				psStaff = conn.prepareStatement("SELECT * FROM Staff WHERE Enabled='True'");
+			else
+				psStaff = conn.prepareStatement("SELECT * FROM Staff");
 			rsStaff = psStaff.executeQuery();
 			if (rsStaff.isBeforeFirst()){
 				while (rsStaff.next()){
@@ -740,7 +745,7 @@ public class SQLConnector {
 		return items;
 	}
 	
-	protected static ObservableList<String> fillStudentsList(){
+	protected static ObservableList<String> fillStaffListFilter(Boolean attendanceReport, String nameFilter){
 		
 		Connection conn = null;
 		PreparedStatement psStaff;
@@ -751,7 +756,56 @@ public class SQLConnector {
 			
 			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
 			
-			psStaff = conn.prepareStatement("SELECT * FROM Students");
+			if (attendanceReport){
+				psStaff = conn.prepareStatement("SELECT * FROM Staff WHERE Enabled='True' AND Name LIKE LOWER(?)");
+				psStaff.setString(1, "%" + nameFilter + "%");
+			}
+			else{
+				psStaff = conn.prepareStatement("SELECT * FROM Staff WHERE Name LIKE LOWER(?))");
+				psStaff.setString(1, "%" + nameFilter + "%");
+			}
+			rsStaff = psStaff.executeQuery();
+			if (rsStaff.isBeforeFirst()){
+				while (rsStaff.next()){
+					items.add(rsStaff.getString(2));
+				}
+				
+				FXCollections.sort(items);
+			}
+			
+		} catch (SQLException e) {
+		e.printStackTrace();
+		}
+		finally{
+			
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return items;
+	}
+	
+	protected static ObservableList<String> fillStudentsList(Boolean attendanceReport){
+		
+		Connection conn = null;
+		PreparedStatement psStaff;
+		ResultSet rsStaff;
+		ObservableList<String> items =FXCollections.observableArrayList();
+		
+		try {
+			
+			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+			
+			if (attendanceReport)
+				psStaff = conn.prepareStatement("SELECT * FROM Students WHERE Active='True'");
+			else
+				psStaff = conn.prepareStatement("SELECT * FROM Students");
+			
 			rsStaff = psStaff.executeQuery();
 			if (rsStaff.isBeforeFirst()){
 				while (rsStaff.next()){
@@ -828,6 +882,55 @@ public class SQLConnector {
 		return staff;
 	}
 	
+	protected static Student findStudentByName (String name){
+		
+		PreparedStatement psStudent;
+		ResultSet rsStudent;
+		Student student = new Student();
+		Connection conn;
+
+		conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+		
+	    try {
+	    	
+	    	psStudent = conn.prepareStatement("select * from Students where Name = ?");
+	    	psStudent.setString(1, name);
+	    	rsStudent = psStudent.executeQuery();
+		    
+		    if (rsStudent.next()) {
+		    	
+		    	student.setId(rsStudent.getInt(1));
+		    	student.setName(rsStudent.getString(2));
+		    	student.setPhoto(rsStudent.getString(3));
+		    	student.setYear(rsStudent.getInt(4));
+		    	student.setSecurityGroup(rsStudent.getInt(5));
+		    	student.setActive(rsStudent.getBoolean(6));
+		    	
+		    	
+			}
+			else{
+			    	student = null; //Family not found
+			}
+		    
+		} catch (SQLException e) {
+			e.printStackTrace();
+			student = null;
+		}
+		finally{
+			
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
+		}
+
+		
+		return student;
+	}
+	
 	
 
 	protected static ObservableList<String> findCardsByStaff(int staffID){
@@ -867,6 +970,43 @@ public class SQLConnector {
 	
 	}
 	
+	protected static ObservableList<String> findCardsByStudent(int studentID){
+		
+		PreparedStatement psCardID;
+		ResultSet rsCardID;
+		ObservableList<String> items =FXCollections.observableArrayList();
+		
+		Connection conn;
+	
+		conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+		
+		try {
+			
+			psCardID = conn.prepareStatement("select * from Cards where HolderID = ? AND HolderType = 4");
+			psCardID.setInt(1, studentID);
+			rsCardID = psCardID.executeQuery();
+		    while (rsCardID.next()) {
+		       items.add(rsCardID.getString(2));
+		    }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		finally{
+			
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return items;
+	
+	}
+	
 	protected static Boolean deleteStaffRecord(int staffID){
 		
 		PreparedStatement psDelete, psDeleteCards;
@@ -881,6 +1021,39 @@ public class SQLConnector {
 			
 			psDeleteCards = conn.prepareStatement("DELETE FROM Cards WHERE HolderID = ? AND HolderType = 2");
 			psDeleteCards.setInt(1, staffID);
+			psDeleteCards.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} 
+		finally{
+			
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
+	
+	protected static Boolean deleteStudentRecord(int studentID){
+		
+		PreparedStatement psDelete, psDeleteCards;
+		Connection conn;
+		
+		conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+		
+		try{
+			psDelete = conn.prepareStatement("DELETE FROM Students WHERE id = ?");
+			psDelete.setInt(1, studentID);
+			psDelete.executeUpdate();
+			
+			psDeleteCards = conn.prepareStatement("DELETE FROM Cards WHERE HolderID = ? AND HolderType = 4");
+			psDeleteCards.setInt(1, studentID);
 			psDeleteCards.executeUpdate();
 			return true;
 		} catch (SQLException e) {
@@ -973,6 +1146,43 @@ public class SQLConnector {
 		
 	}
 	
+	protected static Boolean insertNewStudent(Student student){
+		PreparedStatement ps;
+		Connection conn;
+
+		conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+		
+		try {
+		
+			ps = conn.prepareStatement("INSERT INTO Students " + "VALUES (?, ?, ?, ?, ?)");
+			ps.setString(1, student.getName());
+			ps.setString(2, student.getPhoto());
+			ps.setInt(3, student.getYear());
+			ps.setInt(4, student.getSecurityGroup());
+			ps.setBoolean(5, student.getActive());
+			
+			ps.executeUpdate();
+			
+			return true;
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} 
+		finally{
+			
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+	}
+	
 	protected static Boolean updateStaffProfile(Staff staff){
 		PreparedStatement psUpdate;
 		Connection conn;
@@ -989,6 +1199,41 @@ public class SQLConnector {
 			psUpdate.setBoolean(6, staff.getActive());
 			psUpdate.setInt(7, staff.getSecurityGroup());
 			psUpdate.setInt(8, staff.getId());
+			psUpdate.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} 
+		finally{
+			
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+	}
+	
+	protected static Boolean updateStudentProfile(Student student){
+		PreparedStatement psUpdate;
+		Connection conn;
+
+		conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+		try{
+			psUpdate = conn.prepareStatement("UPDATE Students SET Name = ?, Photo = ?, Year = ?, SecurityGroup = ?, Active = ? WHERE id = ?");
+
+			psUpdate.setString(1, student.getName());
+			psUpdate.setString(2, student.getPhoto());
+			psUpdate.setInt(3, student.getYear());
+			psUpdate.setInt(4, student.getSecurityGroup());
+			psUpdate.setBoolean(5, student.getActive());
+
+			psUpdate.setInt(6, student.getId());
 			psUpdate.executeUpdate();
 			return true;
 		} catch (SQLException e) {
@@ -1112,6 +1357,40 @@ public class SQLConnector {
 			ps.setString(1, cardNumber);
 			ps.setInt(2, staffID);
 			ps.setInt(3, 2);
+			ps.executeUpdate();
+			
+			return true;
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} 
+		finally{
+			
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
+	
+	protected static Boolean addCardtoStudent(String cardNumber, int studentID){
+		
+		PreparedStatement ps;
+		Connection conn;
+
+		conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+		
+		try {
+		
+			ps = conn.prepareStatement("INSERT INTO Cards " + "VALUES (?, ?, ?)");
+			ps.setString(1, cardNumber);
+			ps.setInt(2, studentID);
+			ps.setInt(3, 4);
 			ps.executeUpdate();
 			
 			return true;
@@ -1882,191 +2161,6 @@ public class SQLConnector {
 		
 	}
 
-	
-	
-	
-	//////////////////// CARDS /////////////////////////////////////
-	
-	protected static ObservableList<Card> fillCardsList(){
-		
-		Connection conn = null;
-		PreparedStatement psCards;
-		ResultSet rsCards;
-		ObservableList<Card> items =FXCollections.observableArrayList();
-		
-		try {
-			
-			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
-			
-			psCards = conn.prepareStatement("SELECT * FROM Cards");
-			rsCards = psCards.executeQuery();
-			if (rsCards.isBeforeFirst()){
-				while (rsCards.next()){
-					items.add(new Card(rsCards.getInt(1), rsCards.getString(2), rsCards.getInt(3), rsCards.getInt(4)));
-				}
-				
-			}
-			
-		} catch (SQLException e) {
-		e.printStackTrace();
-		}
-		finally{
-			
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				// 
-				e.printStackTrace();
-			}
-			
-		}
-		return items;
-	}
-	
-	protected static Card findCardsByID(int id){
-		
-		Connection conn = null;
-		PreparedStatement psCards;
-		ResultSet rsCards;
-		
-		try {
-			
-			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
-			
-			psCards = conn.prepareStatement("SELECT * FROM Cards WHERE id = ?");
-			psCards.setInt(1, id);
-			rsCards = psCards.executeQuery();
-			if (rsCards.next()){
-			
-				return new Card(rsCards.getInt(1), rsCards.getString(2), rsCards.getInt(3), rsCards.getInt(4));
-				
-			}
-			
-		} catch (SQLException e) {
-		e.printStackTrace();
-		}
-		finally{
-			
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				// 
-				e.printStackTrace();
-			}
-			
-		}
-		return new Card (0, "Not Found", 0, 0);
-	}
-	
-	
-	
-	
-	///////// TEMP PROFIELS /////////////
-	
-	protected static ObservableList<Card> fillProfilesList(){
-		
-		Connection conn = null;
-		PreparedStatement psCards;
-		ResultSet rsCards;
-		ObservableList<Card> items =FXCollections.observableArrayList();
-		
-		try {
-			
-			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
-			
-			psCards = conn.prepareStatement("SELECT * FROM Guests");
-			rsCards = psCards.executeQuery();
-			if (rsCards.isBeforeFirst()){
-				while (rsCards.next()){
-					items.add(new Card(rsCards.getInt(1), rsCards.getString(2), rsCards.getInt(3), rsCards.getInt(4)));
-				}
-				
-			}
-			
-		} catch (SQLException e) {
-		e.printStackTrace();
-		}
-		finally{
-			
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				// 
-				e.printStackTrace();
-			}
-			
-		}
-		return items;
-	}
-	
-	protected static Card findProfileByID(int id){
-		
-		Connection conn = null;
-		PreparedStatement psCards;
-		ResultSet rsCards;
-		
-		try {
-			
-			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
-			
-			psCards = conn.prepareStatement("SELECT * FROM Guests WHERE id = ?");
-			psCards.setInt(1, id);
-			rsCards = psCards.executeQuery();
-			if (rsCards.next()){
-			
-				return new Card(rsCards.getInt(1), rsCards.getString(2), rsCards.getInt(3), rsCards.getInt(4));
-				
-			}
-			
-		} catch (SQLException e) {
-		e.printStackTrace();
-		}
-		finally{
-			
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				// 
-				e.printStackTrace();
-			}
-			
-		}
-		return new Card (0, "Not Found", 0, 0);
-	}
-	
-	protected static Boolean insertNewProfile(Card profile){
-		
-		Connection conn = null;
-		PreparedStatement psProfile;
-		
-		try {
-			
-			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
-			
-			psProfile = conn.prepareStatement("INSERT INTO Cards " + "VALUES (((SELECT MAX(id) FROM Guests) + 1), ?, ?)");
-			psProfile.setString(1, profile.getCardNumber());
-			psProfile.setInt(2, profile.getHolderID());
-			psProfile.setInt(3, profile.getType());
-			psProfile.executeUpdate();
-			
-			return true;
-			
-		} catch (SQLException e) {
-		e.printStackTrace();
-		}
-		finally{
-			
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				// 
-				e.printStackTrace();
-			}
-			
-		}
-		return false;
-	}
-	
 	
 	//////////////////////////////////////////////////////////////// Staff Attendance ///////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -3002,5 +3096,237 @@ public class SQLConnector {
 		}
 		
 	}
+	
+	////////////////////////////// SPECIAL CARDS //////////////////////////////////////////////
+	
+	protected static ObservableList<SpecialCard> fillSpecCardList(){
+		
+		Connection conn;
+		conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+		
+		PreparedStatement psSpecCard;
+		ResultSet rsSpecCard;
+		ObservableList<SpecialCard> items =FXCollections.observableArrayList();
+		
+		try {
+			
+			psSpecCard = conn.prepareStatement("SELECT * FROM SpecialCards ORDER BY id");
+			rsSpecCard = psSpecCard.executeQuery();
+			if (rsSpecCard.isBeforeFirst()){
+				while (rsSpecCard.next()){
+					items.add(new SpecialCard(rsSpecCard.getInt(1), rsSpecCard.getString(2), rsSpecCard.getInt(3)));
+				}
+				
+			}
+			
+		} catch (SQLException e) {
+		e.printStackTrace();
+		}
+		return items;
+	}
+	
+	protected static Boolean addCardtoSpecialProfile(String cardNumber, int specialID){
+		
+		PreparedStatement ps;
+		Connection conn;
+
+		conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+		
+		try {
+		
+			ps = conn.prepareStatement("INSERT INTO Cards " + "VALUES (?, ?, ?)");
+			ps.setString(1, cardNumber);
+			ps.setInt(2, specialID);
+			ps.setInt(3, 5);
+			ps.executeUpdate();
+			
+			return true;
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} 
+		finally{
+			
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
+	
+	protected static ObservableList<String> findCardsBySpecialProfile(int specialID){
+		
+		PreparedStatement psCardID;
+		ResultSet rsCardID;
+		ObservableList<String> items =FXCollections.observableArrayList();
+		
+		Connection conn;
+	
+		conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+		
+		try {
+			
+			psCardID = conn.prepareStatement("select * from Cards where HolderID = ? AND HolderType = 5");
+			psCardID.setInt(1, specialID);
+			rsCardID = psCardID.executeQuery();
+		    while (rsCardID.next()) {
+		       items.add(rsCardID.getString(2));
+		    }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		finally{
+			
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return items;
+	
+	}
+	
+	protected static Boolean doesSpecialProfileExist(String profileName){
+		
+		PreparedStatement ps;
+		ResultSet rs;
+		
+		Connection conn;
+
+		conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+		
+		try {
+			
+			ps = conn.prepareStatement("select * from SpecialCards where Description = ?");
+			ps.setString(1, profileName);
+			rs = ps.executeQuery();
+			
+			return rs.isBeforeFirst();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return true;
+		} 
+		finally{
+			
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+	}
+	
+	protected static Boolean insertNewSpecialProfile(SpecialCard card){
+		PreparedStatement ps;
+		Connection conn;
+
+		conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+		
+		try {
+		
+			ps = conn.prepareStatement("INSERT INTO SpecialCards " + "VALUES (?, ?)");
+			ps.setString(1, card.getName());
+			ps.setInt(2, card.getSecurityGroup());
+			ps.executeUpdate();
+			
+			return true;
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} 
+		finally{
+			
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+	}
+	
+	
+	protected static Boolean updateSpecialProfile(SpecialCard card){
+		PreparedStatement psUpdate;
+		Connection conn;
+
+		conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+		try{
+			psUpdate = conn.prepareStatement("UPDATE SpecialCards SET Description = ?, SecurityGroup = ? WHERE id = ?");
+
+			psUpdate.setString(1, card.getName());
+			psUpdate.setInt(2, card.getSecurityGroup());
+			psUpdate.setInt(3, card.getId());
+			psUpdate.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} 
+		finally{
+			
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+	}
+	
+	protected static Boolean deleteProfileRecord(int profileID){
+			
+			PreparedStatement psDelete, psDeleteCards;
+			Connection conn;
+			
+			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+			
+			try{
+				psDelete = conn.prepareStatement("DELETE FROM SpecialCards WHERE id = ?");
+				psDelete.setInt(1, profileID);
+				psDelete.executeUpdate();
+				
+				psDeleteCards = conn.prepareStatement("DELETE FROM Cards WHERE HolderID = ? AND HolderType = 5");
+				psDeleteCards.setInt(1, profileID);
+				psDeleteCards.executeUpdate();
+				return true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			} 
+			finally{
+				
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// 
+					e.printStackTrace();
+				}
+				
+			}
+			
+		}
 	
 }

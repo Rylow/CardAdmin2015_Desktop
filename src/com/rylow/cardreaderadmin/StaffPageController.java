@@ -64,7 +64,7 @@ public class StaffPageController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		listStaff.setItems(SQLConnector.fillStaffList());
+		listStaff.setItems(SQLConnector.fillStaffList(false));
 		listStaff.getSelectionModel().selectedItemProperty().addListener(
 	            new ChangeListener<String>() {
 	                public void changed(ObservableValue<? extends String> ov, 
@@ -185,13 +185,13 @@ public class StaffPageController implements Initializable {
 									Staff staffUpd = createStaffPacket(staffID);
 									
 									if (SQLConnector.updateStaffProfile(staffUpd)) {
-									
-										listStaff.setItems(SQLConnector.fillStaffList());
+										// TODO Auto-generated catch block
+										listStaff.setItems(SQLConnector.fillStaffList(false));
 										listStaff.getSelectionModel().select(staff.getName());
 									}
 									else{
 										
-										listStaff.setItems(SQLConnector.fillStaffList());
+										listStaff.setItems(SQLConnector.fillStaffList(false));
 										listStaff.getSelectionModel().select(staff.getName());
 										
 										Alert alert1 = new Alert(AlertType.ERROR);
@@ -203,7 +203,7 @@ public class StaffPageController implements Initializable {
 								}
 								else{
 									
-									listStaff.setItems(SQLConnector.fillStaffList());
+									listStaff.setItems(SQLConnector.fillStaffList(false));
 									listStaff.getSelectionModel().select(staff.getName());
 									
 									Alert alert1 = new Alert(AlertType.ERROR);
@@ -265,7 +265,7 @@ public class StaffPageController implements Initializable {
 						
 						if (SQLConnector.updateStaffProfile(staffUpd)){
 							
-							listStaff.setItems(SQLConnector.fillStaffList());
+							listStaff.setItems(SQLConnector.fillStaffList(false));
 							listStaff.getSelectionModel().select(staffUpd.getName());
 							
 						}
@@ -305,7 +305,7 @@ public class StaffPageController implements Initializable {
 					Files.copy(Paths.get(img1Changed.toString()), Paths.get("\\\\172.25.0.215\\PhotosStaff\\" + id + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
 					staff.setPhoto(id + ".jpg");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 			}
@@ -352,7 +352,7 @@ public class StaffPageController implements Initializable {
 			
 			if(SQLConnector.deleteStaffRecord(Integer.valueOf(lblID.getText()))){
 				
-				listStaff.setItems(SQLConnector.fillStaffList());
+				listStaff.setItems(SQLConnector.fillStaffList(false));
 				listStaff.getSelectionModel().selectFirst();
 				
 			}

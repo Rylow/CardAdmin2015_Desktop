@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rylow.cardreaderadmin.SpecCardPageController">
+   <children>
+      <ListView fx:id="listProfiles" layoutX="31.0" layoutY="48.0" prefHeight="439.0" prefWidth="223.0" />
+      <Label alignment="CENTER" layoutX="30.0" layoutY="14.0" prefHeight="17.0" prefWidth="226.0" text="Special Cards Profiles" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnAddProfile" layoutX="31.0" layoutY="501.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="225.0" onAction="#btnAddNewProfileOnAction" text="Add Profile" />
+      <Label alignment="CENTER" layoutX="359.0" layoutY="146.0" prefHeight="27.0" prefWidth="256.0" text="Profile Name" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="374.0" layoutY="277.0" prefHeight="17.0" prefWidth="226.0" text="Security Group" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cboxSecGroup" layoutX="412.0" layoutY="327.0" prefWidth="150.0" />
+      <Button fx:id="btnSave" layoutX="553.0" layoutY="501.0" mnemonicParsing="false" onAction="#btnSaveOnAction" text="Save Changes" />
+      <Button fx:id="btnCancel" layoutX="692.0" layoutY="501.0" mnemonicParsing="false" text="Cancel Changes" />
+      <Button fx:id="btnRemProfile" layoutX="30.0" layoutY="535.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="225.0" onAction="#btnRemProfileOnAction" text="Remove Profile" />
+      <TextField fx:id="txtProfName" layoutX="359.0" layoutY="188.0" prefHeight="25.0" prefWidth="256.0" />
+      <ListView fx:id="listCards" layoutX="822.0" layoutY="168.0" prefHeight="147.0" prefWidth="175.0" />
+      <Label alignment="CENTER" layoutX="822.0" layoutY="124.0" prefHeight="20.0" prefWidth="176.0" text="Assigned Cards" textAlignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnAddCard" layoutX="821.0" layoutY="342.0" mnemonicParsing="false" onAction="#btnAddCardOnAction" prefHeight="25.0" prefWidth="177.0" text="Add Card" />
+      <Button fx:id="btnRemCardSel" layoutX="821.0" layoutY="386.0" mnemonicParsing="false" onAction="#btnRemCardSelOnAction" prefHeight="25.0" prefWidth="177.0" text="Remove Card (Selected)" />
+      <Label fx:id="lblID" layoutX="586.0" layoutY="151.0" />
+   </children>
+</AnchorPane>

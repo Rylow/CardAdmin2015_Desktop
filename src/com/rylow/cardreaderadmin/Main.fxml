@@ -202,6 +202,11 @@
                 	<fx:include fx:id="staffPage" source="staffPage.fxml" />
             	</content>
             </Tab>
+            <Tab text="Students">
+				<content>
+                	<fx:include fx:id="studentPage" source="studentPage.fxml" />
+            	</content>
+            </Tab>
             <Tab text="Guests">
 				<content>
                 	<fx:include fx:id="guestPage" source="guestPage.fxml" />
@@ -212,14 +217,10 @@
                 	<fx:include fx:id="doorPage" source="doorPage.fxml" />
             	</content>
             </Tab>
-            <Tab disable="true" text="Cards">
+           
+            <Tab text="Special Cards">
 				<content>
-                	<fx:include fx:id="cardPage" source="cardPage.fxml" />
-            	</content>
-            </Tab>
-            <Tab disable="true" text="Temporary Cards">
-				<content>
-                	<fx:include fx:id="tempCardPage" source="tempCardPage.fxml" />
+                	<fx:include fx:id="specCardPage" source="specCardPage.fxml" />
             	</content>
             </Tab>
         </tabs>

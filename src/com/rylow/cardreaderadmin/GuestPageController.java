@@ -110,7 +110,7 @@ public class GuestPageController implements Initializable {
 		txtName.setDisable(true);
 		cboxCard.setItems(SQLConnector.fillCardCbox(32));
 		cboxCard.getSelectionModel().selectFirst();
-		cboxStaff.setItems(SQLConnector.fillStaffList());
+		cboxStaff.setItems(SQLConnector.fillStaffList(true));
 		cboxStaff.getSelectionModel().selectFirst();
 		
 	}

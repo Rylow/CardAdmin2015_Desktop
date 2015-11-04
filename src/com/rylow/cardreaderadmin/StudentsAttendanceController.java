@@ -24,7 +24,7 @@ public class StudentsAttendanceController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		listStudents.setItems(SQLConnector.fillStudentsList());
+		listStudents.setItems(SQLConnector.fillStudentsList(true));
 		listStudents.getSelectionModel().selectedItemProperty().addListener(
 	            new ChangeListener<String>() {
 	                public void changed(ObservableValue<? extends String> ov, 

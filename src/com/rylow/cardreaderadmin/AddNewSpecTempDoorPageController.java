@@ -110,7 +110,7 @@ public class AddNewSpecTempDoorPageController implements Initializable {
 	@FXML
 	public void rbStaffOnAction(ActionEvent event){
 		
-		cboxTH.setItems(SQLConnector.fillStaffList());
+		cboxTH.setItems(SQLConnector.fillStaffList(true));
 		cboxTH.getSelectionModel().selectFirst();
 	}
 
