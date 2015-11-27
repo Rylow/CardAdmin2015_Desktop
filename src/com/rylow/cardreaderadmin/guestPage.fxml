@@ -37,7 +37,6 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="btnRefresh" layoutX="915.0" layoutY="544.0" mnemonicParsing="false" onAction="#btnRefreshOnAction" text="Refresh Table" />
       <RadioButton fx:id="rbGuest" layoutX="73.0" layoutY="210.0" mnemonicParsing="false" onAction="#rbGuestOnAction" text="Guest/Contractor" />
       <RadioButton fx:id="rbFam" layoutX="73.0" layoutY="288.0" mnemonicParsing="false" onAction="#rbFamOnAction" text="Family" />
       <RadioButton fx:id="rbStaff" layoutX="73.0" layoutY="366.0" mnemonicParsing="false" onAction="#rbStaffOnAction" text="Staff" />

@@ -9,7 +9,7 @@
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rylow.cardreaderadmin.MainController">
    <children>
-      <TabPane layoutY="150.0" prefHeight="600.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabPane" layoutY="150.0" prefHeight="600.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Currently in School">
             <content>
@@ -48,7 +48,6 @@
                               <TableColumn fx:id="clmStaffSince" minWidth="0.0" prefWidth="108.0" text="Since" />
                            </columns>
                         </TableView>
-                        <Button fx:id="btnGenerateReport" layoutX="554.0" layoutY="517.0" mnemonicParsing="false" onAction="#btnGenerateReportOnAction" text="Refresh Tables" />
                         <Button fx:id="btnFireDrill" layoutX="27.0" layoutY="517.0" mnemonicParsing="false" onAction="#btnFireDrillOnAction" text="Export Fire Drill" />
                         <TableView fx:id="tblStudents" layoutX="831.0" layoutY="229.0" prefHeight="273.0" prefWidth="333.0">
                            <columns>
@@ -221,6 +220,11 @@
             <Tab text="Special Cards">
 				<content>
                 	<fx:include fx:id="specCardPage" source="specCardPage.fxml" />
+            	</content>
+            </Tab>
+            <Tab text="Card Lables">
+				<content>
+                	<fx:include fx:id="cardLables" source="labelPrintPage.fxml" />
             	</content>
             </Tab>
         </tabs>

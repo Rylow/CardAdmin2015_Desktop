@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -13,6 +14,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class AddNewSpecPermDoorPageController implements Initializable {
 	
@@ -78,7 +80,6 @@ public class AddNewSpecPermDoorPageController implements Initializable {
 		
 		cboxFN.setItems(SQLConnector.fillFamiliesList(SQLConnector.dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682")));
 		cboxFN.getSelectionModel().selectFirst();
-
 		
 	}
 
@@ -142,6 +143,7 @@ public class AddNewSpecPermDoorPageController implements Initializable {
 		}
 
 		dpg.tblSpecialAccess.setItems(SQLConnector.fillDoorSpecPermSecGroupTable(doorID));
+		
 		
 		((Stage) cboxFromH.getScene().getWindow()).close();
 		

@@ -1,6 +1,9 @@
 package com.rylow.cardreaderadmin;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -27,7 +30,7 @@ public class AddNewSpecTempDoorPageController implements Initializable {
 	Button bntSave, bntCancel;
 	
 	@FXML
-	RadioButton rbGuest, rbFamily, rbStaff;
+	RadioButton rbGuest, rbFamily, rbStaff, rbStudent;
 	
 	@FXML
 	final ToggleGroup rbGroup = new ToggleGroup();
@@ -52,6 +55,8 @@ public class AddNewSpecTempDoorPageController implements Initializable {
 		rbFamily.setUserData("family");
 		rbStaff.setToggleGroup(rbGroup);
 		rbStaff.setUserData("staff");
+		rbStudent.setToggleGroup(rbGroup);
+		rbStudent.setUserData("student");
 		
 		rbFamily.setSelected(true);
 		
@@ -61,32 +66,19 @@ public class AddNewSpecTempDoorPageController implements Initializable {
 		hoursList.removeAll(hoursList);
 		minutesList.removeAll(minutesList);
 		
-		for (int i = 0; i < 24; i++){
+		for (int i = 1; i < 8; i++){
 			
-			if (i < 10)
+			/*if (i < 10)
 				hoursList.add("0" + String.valueOf(i));
-			else
+			else*/
 				hoursList.add(String.valueOf(i));
 		}
 		
-		for (int i = 0; i < 60; i++){
-			
-			if (i < 10)
-				minutesList.add("0" + String.valueOf(i));
-			else
-				minutesList.add(String.valueOf(i));
-			
-			i = i + 9;
-		}
-		
-		minutesList.add("59");
 		
 		cboxToH.setItems(hoursList);
 		
-		cboxToM.setItems(minutesList);
 		
 		cboxToH.getSelectionModel().selectFirst();
-		cboxToM.getSelectionModel().selectFirst();
 		
 		
 	}
@@ -113,6 +105,13 @@ public class AddNewSpecTempDoorPageController implements Initializable {
 		cboxTH.setItems(SQLConnector.fillStaffList(true));
 		cboxTH.getSelectionModel().selectFirst();
 	}
+	
+	@FXML
+	public void rbStudentOnAction(ActionEvent event){
+		
+		cboxTH.setItems(SQLConnector.fillStudentsList(true));
+		cboxTH.getSelectionModel().selectFirst();
+	}
 
 	public String getDoorName() {
 		return doorName;
@@ -126,7 +125,12 @@ public class AddNewSpecTempDoorPageController implements Initializable {
 	@FXML
 	public void btnSaveOnAction(ActionEvent event){
 
-		int to = Integer.valueOf(cboxToH.getSelectionModel().getSelectedItem()) * 60 + Integer.valueOf(cboxToM.getSelectionModel().getSelectedItem());
+		
+		Date curDate = new Date();
+		Calendar curCalendar = Calendar.getInstance();
+		curCalendar.add(Calendar.HOUR_OF_DAY, Integer.valueOf(cboxToH.getSelectionModel().getSelectedItem()));
+		
+		int to = Integer.valueOf(new SimpleDateFormat("HH").format(curCalendar.getTime())) * 60 + Integer.valueOf(new SimpleDateFormat("mm").format(curCalendar.getTime()));   //cboxToH.getSelectionModel().getSelectedItem()) * 60 + Integer.valueOf(cboxToM.getSelectionModel().getSelectedItem());
 		
 		//switch (button){
 		
@@ -146,11 +150,14 @@ public class AddNewSpecTempDoorPageController implements Initializable {
 			}
 		}
 		
+		if (String.valueOf(rbGroup.getSelectedToggle().getUserData()).equals("student"))
+			SQLConnector.addNewSpecTempDoorSchedule(new DoorSchedule(cboxTH.getSelectionModel().getSelectedItem(), "4", String.valueOf(to), ""), doorID);
+		
 		
 		
 		//}
 
-		dpg.tblTempAccess.setItems(SQLConnector.fillDoorSpecTempSecGroupTable(doorID));;
+		dpg.tblTempAccess.setItems(SQLConnector.fillDoorSpecTempSecGroupTable(doorID));
 		
 		((Stage) cboxToH.getScene().getWindow()).close();
 		

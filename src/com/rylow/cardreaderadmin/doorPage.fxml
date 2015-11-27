@@ -24,29 +24,29 @@
       <Label fx:id="lblID" layoutX="1141.0" layoutY="44.0" text="id: 4" />
       <TabPane layoutX="304.0" layoutY="74.0" prefHeight="510.0" prefWidth="844.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab closable="false" text="Security Groups">
-               <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <Tab text="Individual Temporary Access">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="464.0" prefWidth="664.0">
                      <children>
-                        <TableView fx:id="tblSecGroup" layoutX="37.0" layoutY="86.0" prefHeight="345.0" prefWidth="628.0">
-                          <columns>
-                            <TableColumn fx:id="tColSG" prefWidth="250.0" text="Security Group" />
-                            <TableColumn fx:id="tColSGFrom" prefWidth="90.0" text="From" />
-                              <TableColumn fx:id="tColSGTo" prefWidth="90.0" text="To" />
-                              <TableColumn fx:id="tColSGOn" prefWidth="200.0" text="On" />
-                          </columns>
-                        </TableView>
-                        <Label alignment="CENTER" layoutX="119.0" layoutY="46.0" prefHeight="17.0" prefWidth="465.0" text="Security Groups Access Rights">
+                        <Label alignment="CENTER" layoutX="119.0" layoutY="46.0" prefHeight="17.0" prefWidth="465.0" text="Temporary Individual Access Rights">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Button fx:id="btnSGAdd" layoutX="679.0" layoutY="216.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Add New Rule" />
-                        <Button fx:id="btnSGEdit" disable="true" layoutX="679.0" layoutY="259.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Edit Selected Rule" />
-                        <Button fx:id="btnSGRemove" layoutX="679.0" layoutY="304.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Remove Selected Rule" />
+                        <TableView fx:id="tblTempAccess" layoutX="37.0" layoutY="86.0" prefHeight="345.0" prefWidth="628.0">
+                           <columns>
+                              <TableColumn fx:id="tColTempOn" minWidth="5.0" prefWidth="90.0" text="Type" />
+                              <TableColumn fx:id="tColTempName" prefWidth="150.0" text="Name" />
+                              <TableColumn fx:id="tColTempFrom" prefWidth="198.0" text="From" />
+                              <TableColumn fx:id="tColTempTo" prefWidth="192.0" text="To" />
+                           </columns>
+                        </TableView>
+                        <Button fx:id="btnTempAdd" layoutX="679.0" layoutY="216.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Add New Rule" />
+                        <Button fx:id="btnSAEdit1" disable="true" layoutX="679.0" layoutY="259.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Edit Selected Rule" />
+                        <Button fx:id="btnTempRemove" layoutX="679.0" layoutY="304.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Remove Selected Rule" />
                      </children>
                   </AnchorPane>
-               </content>
+              </content>
             </Tab>
           <Tab text="Individual Permanent Access">
                <content>
@@ -72,29 +72,29 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab text="Individual Temporary Access">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="464.0" prefWidth="664.0">
+          <Tab closable="false" text="Security Groups">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Label alignment="CENTER" layoutX="119.0" layoutY="46.0" prefHeight="17.0" prefWidth="465.0" text="Temporary Individual Access Rights">
+                        <TableView fx:id="tblSecGroup" layoutX="37.0" layoutY="86.0" prefHeight="345.0" prefWidth="628.0">
+                          <columns>
+                            <TableColumn fx:id="tColSG" prefWidth="250.0" text="Security Group" />
+                            <TableColumn fx:id="tColSGFrom" prefWidth="90.0" text="From" />
+                              <TableColumn fx:id="tColSGTo" prefWidth="90.0" text="To" />
+                              <TableColumn fx:id="tColSGOn" prefWidth="200.0" text="On" />
+                          </columns>
+                        </TableView>
+                        <Label alignment="CENTER" layoutX="119.0" layoutY="46.0" prefHeight="17.0" prefWidth="465.0" text="Security Groups Access Rights">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <TableView fx:id="tblTempAccess" layoutX="37.0" layoutY="86.0" prefHeight="345.0" prefWidth="628.0">
-                           <columns>
-                              <TableColumn fx:id="tColTempOn" minWidth="5.0" prefWidth="90.0" text="Type" />
-                              <TableColumn fx:id="tColTempName" prefWidth="150.0" text="Name" />
-                              <TableColumn fx:id="tColTempFrom" prefWidth="198.0" text="From" />
-                              <TableColumn fx:id="tColTempTo" prefWidth="192.0" text="To" />
-                           </columns>
-                        </TableView>
-                        <Button fx:id="btnTempAdd" layoutX="679.0" layoutY="216.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Add New Rule" />
-                        <Button fx:id="btnSAEdit1" disable="true" layoutX="679.0" layoutY="259.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Edit Selected Rule" />
-                        <Button fx:id="btnTempRemove" layoutX="679.0" layoutY="304.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Remove Selected Rule" />
+                        <Button fx:id="btnSGAdd" layoutX="679.0" layoutY="216.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Add New Rule" />
+                        <Button fx:id="btnSGEdit" disable="true" layoutX="679.0" layoutY="259.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Edit Selected Rule" />
+                        <Button fx:id="btnSGRemove" layoutX="679.0" layoutY="304.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Remove Selected Rule" />
                      </children>
                   </AnchorPane>
-              </content>
+               </content>
             </Tab>
         </tabs>
       </TabPane>

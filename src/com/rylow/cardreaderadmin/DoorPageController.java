@@ -3,9 +3,13 @@ package com.rylow.cardreaderadmin;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -40,6 +44,7 @@ public class DoorPageController implements Initializable {
 	TableColumn<DoorSchedule, String> tColSG, tColSGFrom, tColSGTo, tColSGOn, tColSAName, tColSAFrom, tColSATo, tColSAOn, tColTempName, tColTempFrom, tColTempTo, tColTempOn;
 	
 	private DoorPageController dpg = this;
+	private Timer restartTimer = new Timer();
 		
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -146,6 +151,7 @@ public class DoorPageController implements Initializable {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+
 
 		            }
 		         });
@@ -264,6 +270,9 @@ public class DoorPageController implements Initializable {
 		            		case "Guest" : type = 3;
 		            						name = doorSchedule.getName().substring(doorSchedule.getName().length()-2);
 		            						break;
+		            		case "Student" : type = 4;
+    									   name = doorSchedule.getName();
+    									   break;
 		            		
 		            		}
 		            		
@@ -276,6 +285,28 @@ public class DoorPageController implements Initializable {
 
 		            }
 		         });
+		
+		
+		restartTimer.scheduleAtFixedRate(new TimerTask() {
+
+	        public void run() {
+	        	
+	        	Thread.currentThread().setName("Temporary Table Refresh");
+	        	
+	        	ObservableList<DoorSchedule> finalList = SQLConnector.fillDoorSpecTempSecGroupTable(listDoor.getSelectionModel().getSelectedItem().getId());
+	        	
+	        	Platform.runLater(new Runnable(){
+	    	        @Override
+	    	        public void run() {
+	    	        	tblTempAccess.setItems(finalList);
+	    	        }
+	    	    });
+	        	
+	        	
+
+	        }
+	    }, 30000, 60000);
+		
 		
 	}
 	

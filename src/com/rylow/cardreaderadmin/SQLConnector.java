@@ -54,6 +54,9 @@ public class SQLConnector {
 		    while (rsCardID.next()) {
 		       return rsCardID.getInt(4);
 		    }
+		    
+		    rsCardID.close();
+		    psCardID.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -108,6 +111,9 @@ public class SQLConnector {
 									map.put(timeIn.getTime(), "Family " + familyName + " on Temporary Card");
 								
 								familyName = "";
+								
+								rsFamily.close();
+								psFamily.close();
 
 							}
 							break;
@@ -118,7 +124,11 @@ public class SQLConnector {
 				}
 			}
 			
+			rs.close();
 			
+			
+			
+			pstate.close();
 			
 			
 		} catch (SQLException e) {
@@ -174,6 +184,9 @@ public class SQLConnector {
 									map.put(timeIn.getTime(), familyName + " on Temporary Card");
 								
 								familyName = "";
+								
+								rsFamily.close();
+								psFamily.close();
 
 							}
 							break;
@@ -185,7 +198,8 @@ public class SQLConnector {
 			}
 			
 			
-			
+			rs.close();
+			pstate.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -240,6 +254,9 @@ public class SQLConnector {
 									map.put(timeIn.getTime(), familyName + " on Temporary Card");
 								
 								familyName = "";
+								
+								rsFamily.close();
+								psFamily.close();
 
 							}
 							break;
@@ -251,7 +268,8 @@ public class SQLConnector {
 			}
 			
 			
-			
+			rs.close();
+			pstate.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -283,6 +301,9 @@ public class SQLConnector {
 				FXCollections.sort(items);
 			}
 			
+			rsFamily.close();
+			psFamily.close();
+			
 		} catch (SQLException e) {
 		e.printStackTrace();
 		}
@@ -290,14 +311,17 @@ public class SQLConnector {
 	}
 	
 	
-	protected static Family findFamilyByName (Connection conn, String name){
+	protected static Family findFamilyByName (String name){
 		
 		PreparedStatement psFamily;
 		ResultSet rsFamily;
 		Family family = new Family();
+		Connection conn = null;
+
+		
 		
 	    try {
-	    	
+	    	conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
 			psFamily = conn.prepareStatement("select * from Family where FamilyName = ?");
 		    psFamily.setString(1, name);
 		    rsFamily = psFamily.executeQuery();
@@ -327,6 +351,9 @@ public class SQLConnector {
 		    	family.setSecurityGroup(rsFamily.getInt(15));
 		    	family.setActive(rsFamily.getBoolean(16));
 		    	
+		    	rsFamily.close();
+		    	psFamily.close();
+		    	
 			}
 			else{
 			    	family = null; //Family not found
@@ -335,6 +362,13 @@ public class SQLConnector {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			family = null;
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return family;
@@ -354,6 +388,9 @@ public class SQLConnector {
 		    while (rsCardID.next()) {
 		       items.add(rsCardID.getString(2));
 		    }
+		    
+		    rsCardID.close();
+		    psCardID.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -365,8 +402,8 @@ public class SQLConnector {
 	
 	protected static Boolean doesFamilyExist(String familyName){
 		
-		PreparedStatement ps;
-		ResultSet rs;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		
 		Connection conn;
 
@@ -378,6 +415,8 @@ public class SQLConnector {
 			ps.setString(1, familyName);
 			rs = ps.executeQuery();
 			
+
+			
 			return rs.isBeforeFirst();
 			
 		} catch (SQLException e) {
@@ -387,6 +426,8 @@ public class SQLConnector {
 		finally{
 			
 			try {
+				rs.close();
+				ps.close();
 				conn.close();
 			} catch (SQLException e) {
 				// 
@@ -422,6 +463,8 @@ public class SQLConnector {
 			ps.setInt(14, family.getSecurityGroup());
 			ps.setBoolean(15, family.getActive());
 			ps.executeUpdate();
+			
+			ps.close();
 			
 			return true;
 		
@@ -468,6 +511,9 @@ public class SQLConnector {
 			psUpdate.setBoolean(15, family.getActive());
 			psUpdate.setInt(16, family.getFamilyID());
 			psUpdate.executeUpdate();
+			
+			psUpdate.close();
+			
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -497,6 +543,9 @@ public class SQLConnector {
 			psDelete = conn.prepareStatement("DELETE FROM Family WHERE id = ?");
 			psDelete.setInt(1, familyID);
 			psDelete.executeUpdate();
+			
+			psDelete.close();
+			
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -516,8 +565,8 @@ public class SQLConnector {
 	
 	protected static int findFamilyIdByName(String familyName){
 		
-		PreparedStatement ps;
-		ResultSet rs;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		
 		Connection conn;
 
@@ -531,11 +580,12 @@ public class SQLConnector {
 			
 			if (rs.next()){
 			
+
 				return rs.getInt(1);
 				
 			}
 			else{
-				
+
 				return 0;
 				
 			}
@@ -548,6 +598,8 @@ public class SQLConnector {
 		finally{
 			
 			try {
+				rs.close();
+				ps.close();
 				conn.close();
 			} catch (SQLException e) {
 				// 
@@ -560,8 +612,8 @@ public class SQLConnector {
 	
 	protected static String findFamilyNameById(int id){
 		
-		PreparedStatement ps;
-		ResultSet rs;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		
 		Connection conn;
 
@@ -575,11 +627,13 @@ public class SQLConnector {
 			
 			if (rs.next()){
 			
+
 				return rs.getString(2);
 				
 			}
 			else{
-				
+
+
 				return "Not Found";
 				
 			}
@@ -592,6 +646,8 @@ public class SQLConnector {
 		finally{
 			
 			try {
+				rs.close();
+				ps.close();
 				conn.close();
 			} catch (SQLException e) {
 				// 
@@ -617,6 +673,8 @@ public class SQLConnector {
 			ps.setInt(3, 1);
 			ps.executeUpdate();
 			
+			ps.close();
+			
 			return true;
 		
 		} catch (SQLException e) {
@@ -638,8 +696,8 @@ public class SQLConnector {
 	
 	protected static Boolean isCardIsAlreadyAssigned(String cardNumber){
 		
-		PreparedStatement ps;
-		ResultSet rs;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		
 		Connection conn;
 
@@ -651,6 +709,8 @@ public class SQLConnector {
 			ps.setString(1, cardNumber);
 			rs = ps.executeQuery();
 			
+
+			
 			return rs.isBeforeFirst();
 			
 		} catch (SQLException e) {
@@ -660,6 +720,8 @@ public class SQLConnector {
 		finally{
 			
 			try {
+				rs.close();
+				ps.close();
 				conn.close();
 			} catch (SQLException e) {
 				// 
@@ -682,6 +744,9 @@ public class SQLConnector {
 			psDelete = conn.prepareStatement("DELETE FROM Cards WHERE CardNumber = ?");
 			psDelete.setString(1, cardNumber);
 			psDelete.executeUpdate();
+			
+			psDelete.close();
+			
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -728,6 +793,9 @@ public class SQLConnector {
 				FXCollections.sort(items);
 			}
 			
+			rsStaff.close();
+			psStaff.close();
+			
 		} catch (SQLException e) {
 		e.printStackTrace();
 		}
@@ -773,6 +841,9 @@ public class SQLConnector {
 				FXCollections.sort(items);
 			}
 			
+			rsStaff.close();
+			psStaff.cancel();
+			
 		} catch (SQLException e) {
 		e.printStackTrace();
 		}
@@ -814,6 +885,9 @@ public class SQLConnector {
 				
 				FXCollections.sort(items);
 			}
+			
+			rsStaff.close();
+			psStaff.close();
 			
 		} catch (SQLException e) {
 		e.printStackTrace();
@@ -862,6 +936,9 @@ public class SQLConnector {
 			else{
 			    	staff = null; //Family not found
 			}
+		    
+		    psStaff.close();
+		    rsStaff.close();
 		    
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -912,6 +989,9 @@ public class SQLConnector {
 			    	student = null; //Family not found
 			}
 		    
+		    rsStudent.close();
+		    psStudent.close();
+		    
 		} catch (SQLException e) {
 			e.printStackTrace();
 			student = null;
@@ -951,6 +1031,9 @@ public class SQLConnector {
 		    while (rsCardID.next()) {
 		       items.add(rsCardID.getString(2));
 		    }
+		    
+		    rsCardID.close();
+		    psCardID.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -988,6 +1071,9 @@ public class SQLConnector {
 		    while (rsCardID.next()) {
 		       items.add(rsCardID.getString(2));
 		    }
+		    
+		    rsCardID.close();
+		    psCardID.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1022,6 +1108,10 @@ public class SQLConnector {
 			psDeleteCards = conn.prepareStatement("DELETE FROM Cards WHERE HolderID = ? AND HolderType = 2");
 			psDeleteCards.setInt(1, staffID);
 			psDeleteCards.executeUpdate();
+			
+			psDelete.close();
+			psDeleteCards.close();
+			
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1055,6 +1145,10 @@ public class SQLConnector {
 			psDeleteCards = conn.prepareStatement("DELETE FROM Cards WHERE HolderID = ? AND HolderType = 4");
 			psDeleteCards.setInt(1, studentID);
 			psDeleteCards.executeUpdate();
+			
+			psDelete.close();
+			psDeleteCards.close();
+			
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1075,8 +1169,8 @@ public class SQLConnector {
 	
 	protected static Boolean doesStaffExist(String staffName){
 		
-		PreparedStatement ps;
-		ResultSet rs;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		
 		Connection conn;
 
@@ -1097,6 +1191,8 @@ public class SQLConnector {
 		finally{
 			
 			try {
+				rs.close();
+				ps.close();
 				conn.close();
 			} catch (SQLException e) {
 				// 
@@ -1125,6 +1221,8 @@ public class SQLConnector {
 			ps.setBoolean(6, staff.getActive());
 			ps.setInt(7, staff.getSecurityGroup());
 			ps.executeUpdate();
+			
+			ps.close();
 			
 			return true;
 		
@@ -1163,6 +1261,8 @@ public class SQLConnector {
 			
 			ps.executeUpdate();
 			
+			ps.close();
+			
 			return true;
 		
 		} catch (SQLException e) {
@@ -1200,6 +1300,9 @@ public class SQLConnector {
 			psUpdate.setInt(7, staff.getSecurityGroup());
 			psUpdate.setInt(8, staff.getId());
 			psUpdate.executeUpdate();
+			
+			psUpdate.close();
+			
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1235,6 +1338,8 @@ public class SQLConnector {
 
 			psUpdate.setInt(6, student.getId());
 			psUpdate.executeUpdate();
+			psUpdate.close();
+			
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1256,8 +1361,8 @@ public class SQLConnector {
 	
 	protected static int findStaffIdByName(String staffName){
 		
-		PreparedStatement ps;
-		ResultSet rs;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		
 		Connection conn;
 
@@ -1288,6 +1393,8 @@ public class SQLConnector {
 		finally{
 			
 			try {
+				rs.close();
+				ps.close();
 				conn.close();
 			} catch (SQLException e) {
 				// 
@@ -1301,8 +1408,8 @@ public class SQLConnector {
 	
 	protected static int findStudentIdByName(String studentName){
 		
-		PreparedStatement ps;
-		ResultSet rs;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		
 		Connection conn;
 
@@ -1333,6 +1440,8 @@ public class SQLConnector {
 		finally{
 			
 			try {
+				rs.close();
+				ps.close();
 				conn.close();
 			} catch (SQLException e) {
 				// 
@@ -1358,6 +1467,8 @@ public class SQLConnector {
 			ps.setInt(2, staffID);
 			ps.setInt(3, 2);
 			ps.executeUpdate();
+			
+			ps.close();
 			
 			return true;
 		
@@ -1392,6 +1503,8 @@ public class SQLConnector {
 			ps.setInt(2, studentID);
 			ps.setInt(3, 4);
 			ps.executeUpdate();
+			
+			ps.close();
 			
 			return true;
 		
@@ -1435,6 +1548,9 @@ public class SQLConnector {
 				
 				//FXCollections.sort(items);
 			}
+			
+			rs.close();
+			ps.close();
 			
 		} catch (SQLException e) {
 		e.printStackTrace();
@@ -1480,6 +1596,9 @@ public class SQLConnector {
 				//FXCollections.sort(items);
 			}
 			
+			rs.close();
+			ps.close();
+			
 		} catch (SQLException e) {
 		e.printStackTrace();
 		}
@@ -1519,6 +1638,9 @@ public class SQLConnector {
 				
 				//FXCollections.sort(items);
 			}
+			
+			rs.close();
+			ps.close();
 			
 		} catch (SQLException e) {
 		e.printStackTrace();
@@ -1560,6 +1682,9 @@ public class SQLConnector {
 				//FXCollections.sort(items);
 			}
 			
+			rs.close();
+			ps.close();
+			
 		} catch (SQLException e) {
 		e.printStackTrace();
 		}
@@ -1599,6 +1724,9 @@ public class SQLConnector {
 				
 				//FXCollections.sort(items);
 			}
+			
+			rs.close();
+			ps.close();
 			
 		} catch (SQLException e) {
 		e.printStackTrace();
@@ -1687,6 +1815,8 @@ public class SQLConnector {
 								psUpdate.setInt(1, 301);
 								psUpdate.setInt(2, ident);
 								psUpdate.executeUpdate();
+								
+								psUpdate.close();
 							}
 							else{
 								if (type == 2){
@@ -1695,6 +1825,8 @@ public class SQLConnector {
 									psUpdate.setInt(1, 301);
 									psUpdate.setInt(2, ident);
 									psUpdate.executeUpdate();
+									
+									psUpdate.close();
 									
 								}
 								else{
@@ -1710,6 +1842,8 @@ public class SQLConnector {
 										psDoor.setInt(2, guestCardID);						
 										psDoor.executeUpdate();
 										
+										psDoor.close();
+										psUpdate.close();
 										
 									}
 								}
@@ -1729,6 +1863,12 @@ public class SQLConnector {
 				pstate.setInt(1, 0);
 				pstate.setInt(2, guestCardID);
 				pstate.executeUpdate();
+				
+				rs.close();
+				ps.close();
+				
+				pstate.close();
+				
 				
 				return true;
 				
@@ -1785,9 +1925,16 @@ public class SQLConnector {
 				pstate.setInt(2, guestCardID);
 				pstate.executeUpdate();
 				
+				pstate.close();
+				rs.close();
+				ps.close();
 				return true;
 				
 			}
+			
+			rs.close();
+			ps.close();
+			
 			
 		} catch (SQLException e) {
 		e.printStackTrace();
@@ -1834,6 +1981,8 @@ public class SQLConnector {
 						items.add("Family " + rsFamily.getString(2) + " on card#" + rs.getInt(1));
 					}
 					
+					rsFamily.close();
+					psFamily.close();
 				}
 				
 				if (rs.getInt(3) == 32){
@@ -1846,6 +1995,8 @@ public class SQLConnector {
 						items.add(rsStaff.getString(2)  + " on card#" + rs.getInt(1));
 					}
 					
+					rsStaff.close();
+					psStaff.close();
 					
 				}
 			}
@@ -1884,6 +2035,8 @@ public class SQLConnector {
 			
 			}
 			
+			rs.close();
+			pstate.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1940,6 +2093,8 @@ public class SQLConnector {
 			
 			}
 			
+			rs.close();
+			pstate.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1960,8 +2115,8 @@ public class SQLConnector {
 	
 	protected static String findStaffById(int id){
 		
-		PreparedStatement ps;
-		ResultSet rs;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		
 		Connection conn;
 
@@ -1975,14 +2130,18 @@ public class SQLConnector {
 			
 			if (rs.next()){
 			
+
 				return rs.getString(2);
 				
 			}
 			else{
-				
+
 				return "Not Found";
 				
 			}
+			
+			
+			
 			
 			
 		} catch (SQLException e) {
@@ -1992,6 +2151,8 @@ public class SQLConnector {
 		finally{
 			
 			try {
+				rs.close();
+				ps.close();
 				conn.close();
 			} catch (SQLException e) {
 				// 
@@ -2031,6 +2192,10 @@ public class SQLConnector {
 				pstate.setInt(1, staffID);
 				pstate.setInt(2, guestCardID);
 				pstate.executeUpdate();
+				
+				rs.close();
+				ps.close();
+				pstate.close();
 				
 				return true;
 				
@@ -2088,6 +2253,9 @@ public class SQLConnector {
 				
 			}
 
+			rs.close();
+			pstate.close();
+			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -2135,6 +2303,10 @@ public class SQLConnector {
 				pstate.setInt(1, 1);
 				pstate.setInt(2, guestCardID);
 				pstate.executeUpdate();
+				
+				rs.close();
+				ps.close();
+				pstate.close();
 				
 				return true;
 				
@@ -2185,6 +2357,8 @@ public class SQLConnector {
 				
 			}
 			
+			rsRecord.close();
+			psRecord.close();
 			
 		} catch (SQLException e) {
 		e.printStackTrace();
@@ -2235,6 +2409,9 @@ public class SQLConnector {
 				
 			}
 			
+			rsRecord.close();
+			psRecord.close();
+			
 			
 		} catch (SQLException e) {
 		e.printStackTrace();
@@ -2284,6 +2461,9 @@ public class SQLConnector {
 				
 			}
 			
+			rsRecord.close();
+			psRecord.close();
+			
 			
 		} catch (SQLException e) {
 		e.printStackTrace();
@@ -2306,8 +2486,8 @@ public class SQLConnector {
 	protected static ObservableList<StaffAttendanceRecord> getFamilyAttendanceReport(String familyName){
 		
 		Connection conn = null;
-		PreparedStatement psRecord;
-		ResultSet rsRecord;
+		PreparedStatement psRecord = null;
+		ResultSet rsRecord = null;
 		ObservableList<StaffAttendanceRecord> items =FXCollections.observableArrayList();
 		int id;
 		HashMap<Integer, String> terminals = getTerminals();
@@ -2333,6 +2513,9 @@ public class SQLConnector {
 				
 			}
 			
+			rsRecord.close();
+			psRecord.close();
+			
 			
 		} catch (SQLException e) {
 		e.printStackTrace();
@@ -2355,8 +2538,8 @@ public class SQLConnector {
 	protected static ObservableList<SecurityGroup> fillInSecurityBox(){
 		
 		Connection conn = null;
-		PreparedStatement psRecord;
-		ResultSet rsRecord;
+		PreparedStatement psRecord = null;
+		ResultSet rsRecord = null;
 		ObservableList<SecurityGroup> items =FXCollections.observableArrayList();
 
 		
@@ -2380,6 +2563,8 @@ public class SQLConnector {
 		finally{
 			
 			try {
+				rsRecord.close();
+				psRecord.close();
 				conn.close();
 			} catch (SQLException e) {
 				// 
@@ -2394,13 +2579,14 @@ public class SQLConnector {
 	
 	protected static ObservableList<Door> fillDoorList(){
 
-		PreparedStatement psDoor;
-		ResultSet rsDoor;
+		PreparedStatement psDoor = null;
+		ResultSet rsDoor = null;
 		ObservableList<Door> items =FXCollections.observableArrayList();
+		Connection conn = null;
 		
 		try {
 			
-			Connection conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
 			
 			psDoor = conn.prepareStatement("SELECT * FROM Doors");
 			rsDoor = psDoor.executeQuery();
@@ -2421,19 +2607,32 @@ public class SQLConnector {
 			
 		} catch (SQLException e) {
 		e.printStackTrace();
+		}finally{
+			
+			try {
+				rsDoor.close();
+				psDoor.close();
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
 		}
 		return items;
 	}
 	
 	protected static ObservableList<DoorSchedule> fillDoorSecGroupTable(int doorID){
 
-		PreparedStatement psDoor;
-		ResultSet rsDoor;
+		PreparedStatement psDoor = null;
+		ResultSet rsDoor = null;
 		ObservableList<DoorSchedule> items =FXCollections.observableArrayList();
+		Connection conn = null;
+		
 		
 		try {
 			
-			Connection conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
 			
 			psDoor = conn.prepareStatement("SELECT * FROM DoorPlan WHERE idDoor = ?");
 			psDoor.setInt(1, doorID);
@@ -2455,6 +2654,17 @@ public class SQLConnector {
 			
 		} catch (SQLException e) {
 		e.printStackTrace();
+		}finally{
+			
+			try {
+				rsDoor.close();
+				psDoor.close();
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
 		}
 		return items;
 	}
@@ -2498,6 +2708,9 @@ public class SQLConnector {
 
 			}
 			
+			psDoor.close();
+			rsDoor.close();
+			
 		} catch (SQLException e) {
 		e.printStackTrace();
 		}
@@ -2521,6 +2734,9 @@ public class SQLConnector {
 
 			}
 			
+			rsDoor.close();
+			psDoor.close();
+			
 		} catch (SQLException e) {
 		e.printStackTrace();
 		}
@@ -2529,8 +2745,8 @@ public class SQLConnector {
 	
 	protected static int findSecGruopIDByName(Connection conn, String sgName){
 
-		PreparedStatement psDoor;
-		ResultSet rsDoor;
+		PreparedStatement psDoor = null;
+		ResultSet rsDoor = null;
 		
 		try {
 			
@@ -2544,6 +2760,9 @@ public class SQLConnector {
 
 			}
 			
+			rsDoor.close();
+			psDoor.close();
+			
 		} catch (SQLException e) {
 		e.printStackTrace();
 		}
@@ -2552,8 +2771,8 @@ public class SQLConnector {
 	
 	protected static int findDayTypeIDByName(Connection conn, String dtName){
 
-		PreparedStatement psDoor;
-		ResultSet rsDoor;
+		PreparedStatement psDoor = null;
+		ResultSet rsDoor = null;
 		
 		try {
 			
@@ -2567,6 +2786,9 @@ public class SQLConnector {
 
 			}
 			
+			psDoor.close();
+			rsDoor.close();
+			
 		} catch (SQLException e) {
 		e.printStackTrace();
 		}
@@ -2575,13 +2797,14 @@ public class SQLConnector {
 	
 	protected static ObservableList<String> fillSecGroupBox(){
 
-		PreparedStatement psDoor;
-		ResultSet rsDoor;
+		PreparedStatement psDoor = null;
+		ResultSet rsDoor = null;
 		ObservableList<String> items =FXCollections.observableArrayList();
+		Connection conn = null;
 		
 		try {
 			
-			Connection conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
 			
 			psDoor = conn.prepareStatement("SELECT * FROM SecurityGroups");
 			rsDoor = psDoor.executeQuery();
@@ -2595,19 +2818,31 @@ public class SQLConnector {
 			
 		} catch (SQLException e) {
 		e.printStackTrace();
+		}finally{
+			
+			try {
+				rsDoor.close();
+				psDoor.close();
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
 		}
 		return items;
 	}
 	
 	protected static ObservableList<String> fillDayTypeBox(){
 
-		PreparedStatement psDoor;
-		ResultSet rsDoor;
+		PreparedStatement psDoor = null;
+		ResultSet rsDoor = null;
 		ObservableList<String> items =FXCollections.observableArrayList();
+		Connection conn = null;
 		
 		try {
 			
-			Connection conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
 			
 			psDoor = conn.prepareStatement("SELECT * FROM DoorSchedules");
 			rsDoor = psDoor.executeQuery();
@@ -2621,17 +2856,29 @@ public class SQLConnector {
 			
 		} catch (SQLException e) {
 		e.printStackTrace();
+		}finally{
+			
+			try {
+				rsDoor.close();
+				psDoor.close();
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
 		}
 		return items;
 	}
 	
 	protected static Boolean addNewDoorSgSchedule(DoorSchedule dsg, int id){
 
-		PreparedStatement psDoor;
+		PreparedStatement psDoor = null;
+		Connection conn = null;
 		
 		try {
 			
-			Connection conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
 			
 			psDoor = conn.prepareStatement("INSERT INTO DoorPlan VALUES (?, ?, ?, ?, ?)");
 			psDoor.setInt(1, findSecGruopIDByName(conn, dsg.getName()));
@@ -2647,17 +2894,28 @@ public class SQLConnector {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		}finally{
+			
+			try {
+				psDoor.close();
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
 		}
 		
 	}
 	
 	protected static Boolean removeDoorSgSchedule(DoorSchedule dsg, int id){
 
-		PreparedStatement psDoor;
+		PreparedStatement psDoor = null;
+		Connection conn = null;
 		
 		try {
 			
-			Connection conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
 			
 			psDoor = conn.prepareStatement("DELETE FROM DoorPlan WHERE idSGroups = ? AND idDSchedule = ? AND idDoor = ? AND OpenTime = ? AND CloseTime = ?");
 			psDoor.setInt(1, findSecGruopIDByName(conn, dsg.getName()));
@@ -2676,6 +2934,16 @@ public class SQLConnector {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		}finally{
+			
+			try {
+				psDoor.close();
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
 		}
 		
 	}
@@ -2713,13 +2981,14 @@ public class SQLConnector {
 	
 	protected static ObservableList<DoorSchedule> fillDoorSpecPermSecGroupTable(int doorID){
 
-		PreparedStatement psDoor;
-		ResultSet rsDoor;
+		PreparedStatement psDoor = null;
+		ResultSet rsDoor = null;
 		ObservableList<DoorSchedule> items =FXCollections.observableArrayList();
+		Connection conn = null;
 		
 		try {
 			
-			Connection conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
 			
 			psDoor = conn.prepareStatement("SELECT * FROM DoorSpecPermAccess WHERE DoorID = ?");
 			psDoor.setInt(1, doorID);
@@ -2741,17 +3010,29 @@ public class SQLConnector {
 			
 		} catch (SQLException e) {
 		e.printStackTrace();
+		}finally{
+			
+			try {
+				rsDoor.close();
+				psDoor.close();
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
 		}
 		return items;
 	}
 	
 	protected static Boolean addNewSpecPermDoorSchedule(DoorSchedule dsg, int id){
 
-		PreparedStatement psDoor;
+		PreparedStatement psDoor = null;
+		Connection conn = null;
 		
 		try {
 			
-			Connection conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
 			
 			psDoor = conn.prepareStatement("INSERT INTO DoorSpecPermAccess VALUES (?, ?, ?, ?, ?, ?)");
 			psDoor.setInt(1, 1);
@@ -2768,17 +3049,29 @@ public class SQLConnector {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		}finally{
+			
+			try {
+				psDoor.close();
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
 		}
+		
 		
 	}
 	
 	protected static Boolean removeSpecPermDoorSchedule(DoorSchedule dsg, int id){
 
-		PreparedStatement psDoor;
+		PreparedStatement psDoor = null;
+		Connection conn = null;
 		
 		try {
 			
-			Connection conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
 			
 			psDoor = conn.prepareStatement("DELETE FROM DoorSpecPermAccess WHERE HolderType = ? AND HolderID = ? AND DayOfWeek = ? AND DoorID = ? AND OpenTime = ? AND CloseTime = ?");
 			psDoor.setInt(1, 1);
@@ -2798,6 +3091,16 @@ public class SQLConnector {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		}finally{
+			
+			try {
+				psDoor.close();
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
 		}
 		
 	}
@@ -2805,8 +3108,8 @@ public class SQLConnector {
 	protected static ObservableList<String> fillGuestStaffList(){
 		
 		Connection conn = null;
-		PreparedStatement psStaff, psStaff2;
-		ResultSet rsStaff, rsStaff2;
+		PreparedStatement psStaff = null, psStaff2 = null;
+		ResultSet rsStaff = null, rsStaff2 = null;
 		ObservableList<String> items =FXCollections.observableArrayList();
 		
 		try {
@@ -2833,6 +3136,10 @@ public class SQLConnector {
 		finally{
 			
 			try {
+				psStaff.close();
+				psStaff2.close();
+				rsStaff.close();
+				rsStaff2.close();
 				conn.close();
 			} catch (SQLException e) {
 				// 
@@ -2847,8 +3154,8 @@ public class SQLConnector {
 	protected static ObservableList<String> fillGuestFamiliesList(){
 		
 		Connection conn = null;
-		PreparedStatement psStaff, psStaff2;
-		ResultSet rsStaff, rsStaff2;
+		PreparedStatement psStaff = null, psStaff2 = null;
+		ResultSet rsStaff = null, rsStaff2 = null;
 		ObservableList<String> items =FXCollections.observableArrayList();
 		
 		try {
@@ -2875,6 +3182,10 @@ public class SQLConnector {
 		finally{
 			
 			try {
+				rsStaff.close();
+				rsStaff2.close();
+				psStaff.close();
+				psStaff2.close();
 				conn.close();
 			} catch (SQLException e) {
 				// 
@@ -2888,8 +3199,8 @@ public class SQLConnector {
 	
 	public static ObservableList<String> fillGuestsList(){
 		
-		PreparedStatement pstate;
-		ResultSet rs;
+		PreparedStatement pstate = null;
+		ResultSet rs = null;
 		Set<Integer> idSet = new HashSet<Integer>();
 		Time timeIn, timeOut;
 		ObservableList<String> map = FXCollections.observableArrayList();
@@ -2940,6 +3251,8 @@ public class SQLConnector {
 		finally{
 			
 			try {
+				rs.close();
+				pstate.close();
 				conn.close();
 			} catch (SQLException e) {
 				// 
@@ -2953,11 +3266,12 @@ public class SQLConnector {
 	
 	protected static Boolean addNewSpecTempDoorSchedule(DoorSchedule dsg, int id){
 
-		PreparedStatement psDoor;
+		PreparedStatement psDoor = null;
+		Connection conn = null;
 		
 		try {
 			
-			Connection conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
 			
 
 			try {
@@ -2974,6 +3288,8 @@ public class SQLConnector {
 						 break;
 				case 3 : idH = Integer.valueOf(dsg.getName());
 						 break;
+				case 4 : idH = findStudentIdByName(dsg.getName());
+				 break;
 				
 				}
 				
@@ -3000,19 +3316,30 @@ public class SQLConnector {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		}finally{
+			
+			try {
+				psDoor.close();
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
 		}
 		
 	}
 	
 	protected static ObservableList<DoorSchedule> fillDoorSpecTempSecGroupTable(int doorID){
 
-		PreparedStatement psDoor;
-		ResultSet rsDoor;
+		PreparedStatement psDoor = null;
+		ResultSet rsDoor = null;
 		ObservableList<DoorSchedule> items =FXCollections.observableArrayList();
+		Connection conn = null;
 		
 		try {
 			
-			Connection conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
 			
 			psDoor = conn.prepareStatement("SELECT * FROM DoorSpecTempAccess WHERE DoorID = ?");
 			psDoor.setInt(1, doorID);
@@ -3034,6 +3361,9 @@ public class SQLConnector {
 						case 3 : name = findGuestCardHolder(findGlobalIDofGuestCard(rsDoor.getInt(3))) + " #" + rsDoor.getInt(3);
 								 type = "Guest";
 								 break;
+						case 4 : name = findStudentById(rsDoor.getInt(3));
+						 		 type = "Student";
+						 break;
 					
 					
 					}
@@ -3054,17 +3384,29 @@ public class SQLConnector {
 			
 		} catch (SQLException e) {
 		e.printStackTrace();
+		}finally{
+			
+			try {
+				rsDoor.close();
+				psDoor.close();
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
 		}
 		return items;
 	}
 	
 	protected static Boolean removeDoorTempSchedule(DoorSchedule dsg, int id){
 
-		PreparedStatement psDoor;
+		PreparedStatement psDoor = null;
+		Connection conn = null;
 		
 		try {
 			
-			Connection conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
 			
 			psDoor = conn.prepareStatement("DELETE FROM DoorSpecTempAccess WHERE HolderType = ? AND HolderID = ? AND DoorID = ?");
 			psDoor.setInt(1, Integer.valueOf(dsg.getDayType()));
@@ -3079,6 +3421,8 @@ public class SQLConnector {
 					 break;
 			case 3 : idH = Integer.valueOf(dsg.getName());
 					 break;
+			case 4 : idH = findStudentIdByName(dsg.getName());
+			 		 break;
 			
 			}
 			
@@ -3086,14 +3430,27 @@ public class SQLConnector {
 			psDoor.setInt(3, id);
 			
 			psDoor.executeUpdate();
-
+			
 			return true;
 			
 			
 		} catch (SQLException e) {
+
 			e.printStackTrace();
+			
 			return false;
+		}finally{
+			
+			try {
+				psDoor.close();
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
 		}
+		
 		
 	}
 	
@@ -3104,8 +3461,8 @@ public class SQLConnector {
 		Connection conn;
 		conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
 		
-		PreparedStatement psSpecCard;
-		ResultSet rsSpecCard;
+		PreparedStatement psSpecCard = null;
+		ResultSet rsSpecCard = null;
 		ObservableList<SpecialCard> items =FXCollections.observableArrayList();
 		
 		try {
@@ -3122,12 +3479,24 @@ public class SQLConnector {
 		} catch (SQLException e) {
 		e.printStackTrace();
 		}
+		finally{
+			
+			try {
+				rsSpecCard.close();
+				psSpecCard.close();
+				conn.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
+		}
 		return items;
 	}
 	
 	protected static Boolean addCardtoSpecialProfile(String cardNumber, int specialID){
 		
-		PreparedStatement ps;
+		PreparedStatement ps = null;
 		Connection conn;
 
 		conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
@@ -3149,6 +3518,7 @@ public class SQLConnector {
 		finally{
 			
 			try {
+				ps.close();
 				conn.close();
 			} catch (SQLException e) {
 				// 
@@ -3161,8 +3531,8 @@ public class SQLConnector {
 	
 	protected static ObservableList<String> findCardsBySpecialProfile(int specialID){
 		
-		PreparedStatement psCardID;
-		ResultSet rsCardID;
+		PreparedStatement psCardID = null;
+		ResultSet rsCardID = null;
 		ObservableList<String> items =FXCollections.observableArrayList();
 		
 		Connection conn;
@@ -3184,6 +3554,8 @@ public class SQLConnector {
 		finally{
 			
 			try {
+				rsCardID.close();
+				psCardID.close();
 				conn.close();
 			} catch (SQLException e) {
 				// 
@@ -3198,8 +3570,8 @@ public class SQLConnector {
 	
 	protected static Boolean doesSpecialProfileExist(String profileName){
 		
-		PreparedStatement ps;
-		ResultSet rs;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		
 		Connection conn;
 
@@ -3220,6 +3592,8 @@ public class SQLConnector {
 		finally{
 			
 			try {
+				rs.close();
+				ps.close();
 				conn.close();
 			} catch (SQLException e) {
 				// 
@@ -3232,7 +3606,7 @@ public class SQLConnector {
 	}
 	
 	protected static Boolean insertNewSpecialProfile(SpecialCard card){
-		PreparedStatement ps;
+		PreparedStatement ps = null;
 		Connection conn;
 
 		conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
@@ -3253,6 +3627,7 @@ public class SQLConnector {
 		finally{
 			
 			try {
+				ps.close();
 				conn.close();
 			} catch (SQLException e) {
 				// 
@@ -3266,7 +3641,7 @@ public class SQLConnector {
 	
 	
 	protected static Boolean updateSpecialProfile(SpecialCard card){
-		PreparedStatement psUpdate;
+		PreparedStatement psUpdate = null;;
 		Connection conn;
 
 		conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
@@ -3285,6 +3660,7 @@ public class SQLConnector {
 		finally{
 			
 			try {
+				psUpdate.close();
 				conn.close();
 			} catch (SQLException e) {
 				// 
@@ -3298,7 +3674,8 @@ public class SQLConnector {
 	
 	protected static Boolean deleteProfileRecord(int profileID){
 			
-			PreparedStatement psDelete, psDeleteCards;
+			PreparedStatement psDelete = null;
+			PreparedStatement psDeleteCards = null;
 			Connection conn;
 			
 			conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
@@ -3319,6 +3696,8 @@ public class SQLConnector {
 			finally{
 				
 				try {
+					psDelete.close();
+					psDeleteCards.close();
 					conn.close();
 				} catch (SQLException e) {
 					// 
@@ -3328,5 +3707,52 @@ public class SQLConnector {
 			}
 			
 		}
+	
+	
+	protected static String findStudentById(int id){
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		Connection conn;
+
+		conn = dbConnect("jdbc:sqlserver://172.25.0.215\\SQLEXPRESS;databaseName=CardReader","CrdReader","SbdLswTOr*682");
+		
+		try {
+			
+			ps = conn.prepareStatement("select * from Students where id = ?");
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			
+			if (rs.next()){
+			
+				return rs.getString(2);
+				
+			}
+			else{
+				
+				return "Not Found";
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "Not Found";
+		} 
+		finally{
+			
+			try {
+				conn.close();
+				rs.close();
+				ps.close();
+			} catch (SQLException e) {
+				// 
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
 	
 }

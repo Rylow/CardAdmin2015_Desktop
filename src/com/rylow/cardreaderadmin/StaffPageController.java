@@ -1,5 +1,7 @@
 package com.rylow.cardreaderadmin;
 
+import java.awt.image.BufferedImage;
+import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -9,14 +11,29 @@ import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javax.imageio.ImageIO;
+
+import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap;
+import org.apache.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
+
 import com.rylow.Staff.Staff;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -24,18 +41,23 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class StaffPageController implements Initializable {
 	
 	@FXML
-	Button btnAddNewStaff, btnRemSelStaff, btnImg1, btnAddCard, btnRemCardSel, btnSave, btnCancel;
+	Button btnAddNewStaff, btnRemSelStaff, btnImg1, btnAddCard, btnRemCardSel, btnSave, btnCancel, btnLabel;
 	
 	@FXML
 	ListView<String> listStaff, listCards;
@@ -61,6 +83,9 @@ public class StaffPageController implements Initializable {
 	private File img1Changed;
 	private String currentImg1;
 	
+	private MainController main;
+	
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
@@ -78,6 +103,12 @@ public class StaffPageController implements Initializable {
 	            }
 	        });
 		listStaff.getSelectionModel().selectFirst();
+		
+	}
+	
+	public void init(MainController main){
+		
+		this.main = main;
 		
 	}
 	
@@ -584,4 +615,14 @@ public class StaffPageController implements Initializable {
 		
 		
 	}
+	
+	@FXML
+	public void btnGenerateLabelOnAction(ActionEvent event){
+		
+
+    	 main.tabPane.getSelectionModel().select(10);
+    	 
+
+	}
+	
 }

@@ -12,6 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.TreeMap;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
@@ -40,6 +42,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -47,6 +50,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -74,8 +78,6 @@ public class MainController implements Initializable{
 	@FXML
 	TableColumn<FamilyReport, String>clmStudentSince;
 	@FXML
-	Button btnGenerateReport;
-	@FXML
 	CheckBox chkActive;
 	@FXML
 	ChoiceBox<SecurityGroup> cboxSecGroup;
@@ -95,16 +97,21 @@ public class MainController implements Initializable{
 	@FXML
 	Parent root;
 	
+	@FXML
+	protected TabPane tabPane;
+	
 	private static Connection conn;
 	
+	@FXML
+	private StaffPageController staffPageController;
 	
-	private static ObservableList<FamilyReport> familyList = FXCollections.observableArrayList();
-	private static ObservableList<StaffReport> staffList = FXCollections.observableArrayList();
-	private static ObservableList<FamilyReport> guestsList = FXCollections.observableArrayList();
-	private static ObservableList<FamilyReport> studentsList = FXCollections.observableArrayList();
+	@FXML LabelPrintPageController labelPrintPageController;
+	
 	
 	private File img1Changed, img2Changed, img3Changed, img4Changed;
 	String currentImg1, currentImg2, currentImg3, currentImg4;
+	
+	private Timer restartTimer = new Timer();
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -149,15 +156,23 @@ public class MainController implements Initializable{
 	            }
 	        });
 		listFamilies.getSelectionModel().selectFirst();
+		
+		restartTimer.scheduleAtFixedRate(new TimerTask() {
+
+	        public void run() {
+	        	
+	        	Thread.currentThread().setName("In School Tables Refresh");
+	        	generateReport();
+	        	
+
+	        }
+	    }, 10000, 5000);
+		
+		
+		staffPageController.init(this);
+		
 	}
 
-	
-	@FXML
-	public void btnGenerateReportOnAction(ActionEvent event){
-		
-		generateReport();
-		
-	}
 	
 	@FXML
 	public void btnRemCardSelOnAction(ActionEvent event){
@@ -373,39 +388,36 @@ public class MainController implements Initializable{
 		return file;
 	}
 	
-	public static void generateReport(){
+	public void generateReport(){
 		
-		familyList.removeAll(familyList);
-	    Platform.runLater(new Runnable(){
+		ObservableList<FamilyReport> tempfamilyList = generateReportFamily();
+		ObservableList<StaffReport> tempstaffList = generateReportStaff();
+		ObservableList<FamilyReport> tempguestsList = generateReportGuests();
+		ObservableList<FamilyReport> tempstudentsList = generateReportStudents();
+		
+		Platform.runLater(new Runnable(){
 	        @Override
 	        public void run() {
-	        	generateReportFamily();
+	        	
+	        	tblFamily.setItems(null);
+	        	tblFamily.layout();
+	        	tblFamily.setItems(tempfamilyList);
+	        	
+	        	tblStaff.setItems(null);
+	        	tblStaff.layout();
+	        	tblStaff.setItems(tempstaffList);
+	        	
+	        	tblGuests.setItems(null);
+	        	tblGuests.layout();
+	        	tblGuests.setItems(tempguestsList);
+	        	
+	        	tblStudents.setItems(null);
+	        	tblStudents.layout();
+	        	tblStudents.setItems(tempstudentsList);
+	        	
 	        }
 	    });
-	    
-		staffList.removeAll(staffList);
-	    Platform.runLater(new Runnable(){
-	        @Override
-	        public void run() {
-	        	generateReportStaff();
-	        }
-	    });
-	    
-		guestsList.removeAll(guestsList);
-	    Platform.runLater(new Runnable(){
-	        @Override
-	        public void run() {
-	        	generateReportGuests();
-	        }
-	    });
-	    
-		studentsList.removeAll(studentsList);
-	    Platform.runLater(new Runnable(){
-	        @Override
-	        public void run() {
-	        	generateReportStudents();
-	        }
-	    });
+  
 		
 	}
 	
@@ -415,6 +427,7 @@ public class MainController implements Initializable{
 		long diffMinutes;
 		long diffHours;
 		
+		ObservableList<FamilyReport> familyList = FXCollections.observableArrayList();
 		
 		
 		TreeMap<Long, String> familyInSchool = SQLConnector.currentlyInSchoolReportFamily(conn);
@@ -446,14 +459,22 @@ public class MainController implements Initializable{
 				else
 					since = since + "0" + diffSeconds;
 				
-				familyList.add(new FamilyReport(familyInSchool.get(timeDiff),since));
+				String resSince = since;
+				
+			    
+			        	familyList.add(new FamilyReport(familyInSchool.get(timeDiff),resSince));
+
 				
 				
 			}
 
 		}
 		else{
-			familyList.add(new FamilyReport("Nobody should be in the school at the moment",""));
+			
+
+		        	familyList.add(new FamilyReport("Nobody should be in the school at the moment",""));
+
+			
 		}
 		
 		return familyList;
@@ -465,7 +486,7 @@ public class MainController implements Initializable{
 		long diffMinutes;
 		long diffHours;
 		
-		
+		ObservableList<StaffReport> staffList = FXCollections.observableArrayList();
 		
 		TreeMap<Long, String> staffInSchool = SQLConnector.currentlyInSchoolReportStaff(conn);
 		
@@ -513,7 +534,7 @@ public class MainController implements Initializable{
 		long diffMinutes;
 		long diffHours;
 		
-		
+		ObservableList<FamilyReport> guestsList = FXCollections.observableArrayList();
 		
 		TreeMap<Long, String> guestsInSchool = SQLConnector.currentlyInSchoolReportOnlyGuests();
 		
@@ -563,7 +584,7 @@ public class MainController implements Initializable{
 		long diffMinutes;
 		long diffHours;
 		
-		
+		ObservableList<FamilyReport> studentsList = FXCollections.observableArrayList();
 		
 		TreeMap<Long, String> guestsInSchool = SQLConnector.currentlyInSchoolReportStudents(conn);
 		
@@ -609,7 +630,7 @@ public class MainController implements Initializable{
 	
 	private void showFamily (String familyName){
 		
-		Family family = SQLConnector.findFamilyByName(conn, familyName);
+		Family family = SQLConnector.findFamilyByName(familyName);
 		
 		if (family != null){
 			
@@ -1069,6 +1090,8 @@ public class MainController implements Initializable{
 	public void btnFireDrillOnAction(ActionEvent event){
 	
 		
+		
+		
 		PDDocument document = new PDDocument();
 		PDPage page;
 		
@@ -1078,7 +1101,6 @@ public class MainController implements Initializable{
 		// Start a new content stream which will "hold" the to be created content
 		try {
 			
-			staffList.removeAll(staffList);
 			ObservableList<StaffReport> staffinSchool = generateReportStaff();
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("E dd-MM-YYYY HH:mm");
@@ -1164,7 +1186,6 @@ public class MainController implements Initializable{
 			////////////////// FAMILY PART //////////////////////////////////////////
 			
 			
-			familyList.removeAll(familyList);
 			ObservableList<FamilyReport> familyinSchool = generateReportFamily();
 			
 			count = familyinSchool.size() / 60;
@@ -1245,8 +1266,7 @@ public class MainController implements Initializable{
 			}
 			
 			////////////////////////////////// GUEST ///////////////////////////////////////////////////
-			
-			guestsList.removeAll(guestsList);
+
 			ObservableList<FamilyReport> guestsinSchool = generateReportGuests();
 			
 			count = guestsinSchool.size() / 60;

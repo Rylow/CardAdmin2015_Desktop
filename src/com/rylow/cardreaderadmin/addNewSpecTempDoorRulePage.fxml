@@ -24,17 +24,17 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="cboxToM" layoutX="572.0" layoutY="151.0" prefHeight="25.0" prefWidth="58.0" />
-      <ChoiceBox fx:id="cboxToH" layoutX="498.0" layoutY="151.0" prefHeight="25.0" prefWidth="58.0" />
-      <Label alignment="CENTER" layoutX="504.0" layoutY="112.0" prefHeight="25.0" prefWidth="125.0" text="Until">
+      <ChoiceBox fx:id="cboxToM" layoutX="620.0" layoutY="151.0" prefHeight="25.0" prefWidth="58.0" visible="false" />
+      <ChoiceBox fx:id="cboxToH" layoutX="535.0" layoutY="151.0" prefHeight="25.0" prefWidth="58.0" />
+      <Label alignment="CENTER" layoutX="504.0" layoutY="112.0" prefHeight="25.0" prefWidth="125.0" text="For">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
       <Button fx:id="btnSave" layoutX="254.0" layoutY="246.0" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="25.0" prefWidth="125.0" text="Save" />
       <Button fx:id="btnCancel" layoutX="410.0" layoutY="246.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Cancel" />
-      <Label layoutX="559.0" layoutY="155.0" text="h" />
-      <Label layoutX="630.0" layoutY="155.0" text="m" />
+      <Label layoutX="596.0" layoutY="155.0" text="h" />
+      <Label layoutX="678.0" layoutY="155.0" text="m" visible="false" />
       <Label layoutX="387.0" layoutY="49.0" text="for">
          <font>
             <Font size="14.0" />
@@ -43,5 +43,6 @@
       <RadioButton fx:id="rbFamily" layoutX="62.0" layoutY="121.0" mnemonicParsing="false" onAction="#rbFamilyOnAction" text="Family" />
       <RadioButton fx:id="rbStaff" layoutX="62.0" layoutY="156.0" mnemonicParsing="false" onAction="#rbStaffOnAction" text="Staff" />
       <RadioButton fx:id="rbGuest" layoutX="62.0" layoutY="190.0" mnemonicParsing="false" onAction="#rbGuestOnAction" text="Guest" />
+      <RadioButton fx:id="rbStudent" layoutX="62.0" layoutY="224.0" mnemonicParsing="false" onAction="#rbStudentOnAction" text="Student" />
    </children>
 </AnchorPane>

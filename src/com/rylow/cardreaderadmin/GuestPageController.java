@@ -4,6 +4,8 @@ import java.net.URL;
 import java.sql.Connection;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -47,6 +49,8 @@ public class GuestPageController implements Initializable {
 	
 	@FXML
 	ListView<String> listTempCards;
+	
+	private Timer restartTimer = new Timer();
 
 	
 	
@@ -74,6 +78,22 @@ public class GuestPageController implements Initializable {
 		cboxCard.getSelectionModel().selectFirst();
 		
 		listTempCards.setItems(SQLConnector.currentlyInSchoolReportGuests(conn));
+		
+		restartTimer.scheduleAtFixedRate(new TimerTask() {
+
+	        public void run() {
+	        	
+	        	Thread.currentThread().setName("Temporary Table Refresh");
+	        	Platform.runLater(new Runnable(){
+	    	        @Override
+	    	        public void run() {
+	    	        	listTempCards.setItems(SQLConnector.currentlyInSchoolReportGuests(conn));
+	    	        }
+	    	    });
+	        	
+
+	        }
+	    }, 30000, 5000);
 		
 	}
 	
@@ -146,6 +166,7 @@ public class GuestPageController implements Initializable {
 						
 						SQLConnector.releaseCard(cboxCard.getSelectionModel().getSelectedItem().getId(), 3);
 						SQLConnector.assignGuestGuestCard(cboxCard.getSelectionModel().getSelectedItem().getId(), txtName.getText());
+						listTempCards.setItems(SQLConnector.currentlyInSchoolReportGuests(conn));
 						txtName.setText("");
 						
 					}
@@ -162,6 +183,7 @@ public class GuestPageController implements Initializable {
 					if (result.get() == ButtonType.OK){
 						
 						SQLConnector.assignGuestGuestCard(cboxCard.getSelectionModel().getSelectedItem().getId(), txtName.getText());
+						listTempCards.setItems(SQLConnector.currentlyInSchoolReportGuests(conn));
 						txtName.setText("");
 					}
 					
@@ -186,6 +208,7 @@ public class GuestPageController implements Initializable {
 						
 						SQLConnector.releaseCard(cboxCard.getSelectionModel().getSelectedItem().getId(), 1);
 						SQLConnector.assignFamilyGuestCard(cboxCard.getSelectionModel().getSelectedItem().getId(), SQLConnector.findFamilyIdByName(cboxFamily.getSelectionModel().getSelectedItem().toString()));
+						listTempCards.setItems(SQLConnector.currentlyInSchoolReportGuests(conn));
 						
 					}
 					
@@ -201,6 +224,7 @@ public class GuestPageController implements Initializable {
 					if (result.get() == ButtonType.OK){
 						
 						SQLConnector.assignFamilyGuestCard(cboxCard.getSelectionModel().getSelectedItem().getId(), SQLConnector.findFamilyIdByName(cboxFamily.getSelectionModel().getSelectedItem().toString()));
+						listTempCards.setItems(SQLConnector.currentlyInSchoolReportGuests(conn));
 						
 					}
 					
@@ -223,6 +247,7 @@ public class GuestPageController implements Initializable {
 							
 							SQLConnector.releaseCard(cboxCard.getSelectionModel().getSelectedItem().getId(), 2);
 							SQLConnector.assignStaffGuestCard(cboxCard.getSelectionModel().getSelectedItem().getId(), SQLConnector.findStaffIdByName(cboxStaff.getSelectionModel().getSelectedItem().toString()));
+							listTempCards.setItems(SQLConnector.currentlyInSchoolReportGuests(conn));
 							
 						}
 						
@@ -238,6 +263,7 @@ public class GuestPageController implements Initializable {
 						if (result.get() == ButtonType.OK){
 							
 							SQLConnector.assignStaffGuestCard(cboxCard.getSelectionModel().getSelectedItem().getId(), SQLConnector.findStaffIdByName(cboxStaff.getSelectionModel().getSelectedItem().toString()));
+							listTempCards.setItems(SQLConnector.currentlyInSchoolReportGuests(conn));
 							
 						}
 						
@@ -266,12 +292,14 @@ public class GuestPageController implements Initializable {
 			if (selected.equals("guest")){
 			
 				SQLConnector.releaseCard(cboxCard.getSelectionModel().getSelectedItem().getId(), 3);
+				listTempCards.setItems(SQLConnector.currentlyInSchoolReportGuests(conn));
 			}
 			else{
 				
 				if (selected.equals("family")){
 					
 					SQLConnector.releaseCard(cboxCard.getSelectionModel().getSelectedItem().getId(), 1);
+					listTempCards.setItems(SQLConnector.currentlyInSchoolReportGuests(conn));
 					
 				}
 				else{
@@ -279,6 +307,7 @@ public class GuestPageController implements Initializable {
 					if (selected.equals("staff")){
 						
 						SQLConnector.releaseCard(cboxCard.getSelectionModel().getSelectedItem().getId(), 2);
+						listTempCards.setItems(SQLConnector.currentlyInSchoolReportGuests(conn));
 						
 					}
 					
@@ -289,17 +318,6 @@ public class GuestPageController implements Initializable {
 		
 	}
 	
-	@FXML
-	public void btnRefreshOnAction(ActionEvent event){
-
-		
-	    Platform.runLater(new Runnable(){
-	        @Override
-	        public void run() {
-	        	listTempCards.setItems(SQLConnector.currentlyInSchoolReportGuests(conn));
-	        }
-	    });
-		
-	}
+	
 
 }
