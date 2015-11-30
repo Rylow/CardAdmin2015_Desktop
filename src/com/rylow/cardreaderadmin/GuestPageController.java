@@ -31,13 +31,10 @@ public class GuestPageController implements Initializable {
 	TextField txtName;
 	
 	@FXML
-	ChoiceBox<String> cboxFamily;
-	
-	@FXML
 	ChoiceBox<GuestCard> cboxCard;
 	
 	@FXML
-	ComboBox<String> cboxStaff;
+	ComboBox<String> cboxStaff, cboxFamily;
 	
 	@FXML
 	Button btnAssign, btnRelease;

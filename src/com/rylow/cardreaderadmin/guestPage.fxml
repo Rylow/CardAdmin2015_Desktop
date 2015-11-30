@@ -40,8 +40,8 @@
       <RadioButton fx:id="rbGuest" layoutX="73.0" layoutY="210.0" mnemonicParsing="false" onAction="#rbGuestOnAction" text="Guest/Contractor" />
       <RadioButton fx:id="rbFam" layoutX="73.0" layoutY="288.0" mnemonicParsing="false" onAction="#rbFamOnAction" text="Family" />
       <RadioButton fx:id="rbStaff" layoutX="73.0" layoutY="366.0" mnemonicParsing="false" onAction="#rbStaffOnAction" text="Staff" />
-      <ChoiceBox fx:id="cboxFamily" layoutX="186.0" layoutY="284.0" prefHeight="25.0" prefWidth="224.0" />
       <ComboBox fx:id="cboxStaff" layoutX="186.0" layoutY="362.0" prefHeight="25.0" prefWidth="224.0" />
       <ListView fx:id="listTempCards" layoutX="782.0" layoutY="96.0" prefHeight="434.0" prefWidth="353.0" />
+      <ComboBox fx:id="cboxFamily" layoutX="186.0" layoutY="288.0" prefHeight="25.0" prefWidth="224.0" />
    </children>
 </AnchorPane>
